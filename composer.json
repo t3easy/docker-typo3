@@ -1,0 +1,60 @@
+{
+	"repositories": [
+		{ "type": "composer", "url": "https://composer.typo3.org/" }
+	],
+	"name": "typo3/cms-base-distribution",
+	"description" : "TYPO3 CMS Base Distribution",
+	"license": "GPL-2.0+",
+	"require": {
+		"typo3/cms": "^8.7",
+
+		"typo3/cms-belog": "^8.7",
+		"typo3/cms-beuser": "^8.7",
+		"typo3/cms-context-help": "^8.7",
+		"typo3/cms-fluid-styled-content": "^8.7",
+		"typo3/cms-felogin": "^8.7",
+		"typo3/cms-filelist": "^8.7",
+		"typo3/cms-impexp": "^8.7",
+		"typo3/cms-info": "^8.7",
+		"typo3/cms-info-pagetsconfig": "^8.7",
+		"typo3/cms-lowlevel": "^8.7",
+		"typo3/cms-reports": "^8.7",
+		"typo3/cms-rsaauth": "^8.7",
+		"typo3/cms-rte-ckeditor": "^8.7",
+		"typo3/cms-setup": "^8.7",
+		"typo3/cms-tstemplate": "^8.7",
+		"typo3/cms-viewpage": "^8.7",
+
+		"helhum/typo3-console": "^4.6"
+	},
+	"autoload": {
+		"psr-4": {}
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"# composer install composer.lock file present"
+		],
+		"post-update-cmd": [
+			"# composer update or composer install composer.lock NOT file present"
+		],
+		"package-states": [
+			"typo3cms install:generatepackagestates"
+		],
+		"folder-structure": [
+			"typo3cms install:fixfolderstructure"
+		],
+		"post-autoload-dump": [
+			"@package-states",
+			"@folder-structure"
+		]
+	},
+	"extra": {
+		"helhum/typo3-console": {
+			"install-extension-dummy": false
+		},
+		"typo3/cms": {
+			"cms-package-dir": "{$vendor-dir}/typo3/cms",
+			"web-dir": "web"
+		}
+	}
+}

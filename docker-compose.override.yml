@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+  web:
+    # Use YOUR prepared image in production!!!
+    image: t3easy/typo3:web
+
+  typo3:
+    # Use YOUR prepared image in production!!!
+    image: t3easy/typo3:8.7

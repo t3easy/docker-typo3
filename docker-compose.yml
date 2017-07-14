@@ -1,0 +1,45 @@
+version: "3.3"
+services:
+  web:
+    ports:
+    - "80:80"
+    volumes:
+    - typo3:/app
+    networks:
+      web-typo3:
+    depends_on:
+    - typo3
+
+  typo3:
+    volumes:
+    - typo3:/app
+    networks:
+      web-typo3:
+        aliases:
+        - typo3
+      typo3-db:
+        aliases:
+        - typo3
+
+  db:
+    image: mariadb:10.2
+    networks:
+      typo3-db:
+        aliases:
+        - db
+    command: --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    volumes:
+    - db:/var/lib/mysql
+    environment:
+    - MYSQL_ROOT_PASSWORD=typo3
+    - MYSQL_DATABASE=typo3
+    - MYSQL_USER=typo3
+    - MYSQL_PASSWORD=typo3
+
+volumes:
+  typo3:
+  db:
+
+networks:
+  web-typo3:
+  typo3-db:
