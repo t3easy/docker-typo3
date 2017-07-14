@@ -14,3 +14,9 @@ For testing:
         <http://web.typo3/typo3/>
 1.  Go to <http://web.typo3/> for the frontend and <http://web.typo3/typo3/> for the TYPO3 backend
 1.  Log in with user `admin` and password `password` (or your setup credentials)
+
+
+## Build and run:
+
+1.  `docker-compose -f docker-compose.yml -f docker-compose.build.yml build`
+1.  `docker-compose up -d`
