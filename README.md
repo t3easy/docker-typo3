@@ -6,9 +6,11 @@ For testing:
 1.  Add `web.typo3` as a hosts entry for localhost / the box you're running docker on
 1.  Setup TYPO3
     1.  With TYPO3 Console  
-        `docker-compose exec typo3 /app/vendor/bin/typo3cms install:setup --non-interactive \
+        ```bash
+        docker-compose exec typo3 /app/vendor/bin/typo3cms install:setup --non-interactive \
             --database-name="typo3" --database-user-name="typo3" --database-user-password="typo3" --database-host-name="db" --database-port="3306" --use-existing-database \
-            --admin-user-name="admin" --admin-password="password" --site-setup-type="site" --site-name="TYPO3 Demo"`
+            --admin-user-name="admin" --admin-password="password" --site-setup-type="site" --site-name="TYPO3 Demo"
+        ```
     1.  Or in the browser  
         `docker-compose exec typo3 touch /app/web/FIRST_INSTALL`  
         <http://web.typo3/typo3/>
