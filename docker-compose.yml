@@ -13,6 +13,8 @@ services:
   typo3:
     volumes:
     - typo3:/app
+    depends_on:
+    - db
     networks:
       web-typo3:
         aliases:
