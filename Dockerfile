@@ -6,6 +6,8 @@ RUN composer install --no-ansi --no-interaction --no-dev --no-progress --classma
 
 FROM t3easy/php:7.1
 
+ENV TYPO3_CONTEXT Development
+
 COPY --from=composer /app .
 
 RUN chown -R www-data:www-data web/
