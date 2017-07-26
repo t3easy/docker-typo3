@@ -20,5 +20,5 @@ For testing:
 
 ## Build and run:
 
-1.  `docker-compose -f docker-compose.yml -f docker-compose.build.yml build`
+1.  `docker-compose -f docker-compose.yml -f docker-compose.build.yml build --no-cache`
 1.  `docker-compose up -d`
