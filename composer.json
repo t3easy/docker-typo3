@@ -36,16 +36,6 @@
 		],
 		"post-update-cmd": [
 			"# composer update or composer install composer.lock NOT file present"
-		],
-		"package-states": [
-			"typo3cms install:generatepackagestates"
-		],
-		"folder-structure": [
-			"typo3cms install:fixfolderstructure"
-		],
-		"post-autoload-dump": [
-			"@package-states",
-			"@folder-structure"
 		]
 	},
 	"extra": {

@@ -10,4 +10,6 @@ ENV TYPO3_CONTEXT Development
 
 COPY --from=composer /app .
 
-RUN chown -R www-data:www-data web/
+RUN vendor/bin/typo3cms install:generatepackagestates \
+    && vendor/bin/typo3cms install:fixfolderstructure \
+    && chown -R www-data:www-data web/
