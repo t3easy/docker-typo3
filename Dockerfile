@@ -11,5 +11,3 @@ ENV TYPO3_CONTEXT Development
 COPY --from=composer /app .
 
 RUN chown -R www-data:www-data web/
-
-VOLUME /app
