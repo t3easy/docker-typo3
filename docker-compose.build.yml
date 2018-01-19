@@ -3,11 +3,11 @@ services:
   web:
     build:
       context: ./.build
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.Web
     image: t3easy/typo3:web
 
   typo3:
     build:
       context: ./.build
-      dockerfile: Dockerfile.Web
+      dockerfile: Dockerfile
     image: t3easy/typo3:8.7
