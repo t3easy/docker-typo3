@@ -7,7 +7,7 @@ For testing:
 1.  Setup TYPO3
     1.  With TYPO3 Console  
         ```bash
-        docker-compose exec typo3 /app/vendor/bin/typo3cms install:setup --non-interactive \
+        docker-compose exec -u www-data typo3 /app/vendor/bin/typo3cms install:setup --non-interactive \
             --database-name="typo3" --database-user-name="typo3" --database-user-password="typo3" --database-host-name="db" --database-port="3306" --use-existing-database \
             --admin-user-name="admin" --admin-password="password" --site-setup-type="site" --site-name="TYPO3 Demo"
         ```

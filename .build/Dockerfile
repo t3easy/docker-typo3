@@ -8,8 +8,4 @@ FROM t3easy/php:7.1
 
 ENV TYPO3_CONTEXT Development
 
-COPY --from=composer /app .
-
-RUN vendor/bin/typo3cms install:generatepackagestates \
-    && vendor/bin/typo3cms install:fixfolderstructure \
-    && chown -R www-data:www-data web/
+COPY --chown=www-data:www-data --from=composer /app .
