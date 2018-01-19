@@ -1,9 +1,13 @@
 version: "3.3"
 services:
   web:
-    build: ./web
+    build:
+      context: ./.build
+      dockerfile: Dockerfile
     image: t3easy/typo3:web
 
   typo3:
-    build: .
+    build:
+      context: ./.build
+      dockerfile: Dockerfile.Web
     image: t3easy/typo3:8.7
