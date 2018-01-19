@@ -24,7 +24,7 @@ services:
         - typo3
 
   db:
-    image: mariadb:10.2
+    image: mariadb:10.1
     networks:
       typo3-db:
         aliases:
