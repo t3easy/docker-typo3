@@ -1,8 +1,6 @@
 version: "3.3"
 services:
   web:
-    ports:
-    - "80:80"
     volumes:
     - typo3:/app
     networks:
