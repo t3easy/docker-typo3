@@ -1,6 +1,6 @@
 FROM composer:latest AS composer
 
-COPY composer.json /app/composer.json
+COPY typo3 /app
 
 RUN composer install --no-ansi --no-interaction --no-dev --no-progress --classmap-authoritative
 
