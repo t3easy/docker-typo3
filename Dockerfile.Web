@@ -1,3 +1,11 @@
+FROM composer:latest AS composer
+
+COPY typo3 /app
+
+RUN composer install --no-ansi --no-interaction --no-dev --no-progress --classmap-authoritative
+
 FROM nginx:alpine
+
+COPY --chown=nginx:nginx --from=composer /app /app
 
 COPY typo3.conf /etc/nginx/conf.d/default.conf

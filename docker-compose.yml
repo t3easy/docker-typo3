@@ -2,7 +2,9 @@ version: "3.3"
 services:
   web:
     volumes:
-    - typo3:/app
+    - fileadmin:/app/web/fileadmin
+    - typo3temp:/app/web/typo3temp
+    - uploads:/app/web/uploads
     networks:
       web-typo3:
     depends_on:
@@ -10,7 +12,11 @@ services:
 
   typo3:
     volumes:
-    - typo3:/app
+    - fileadmin:/app/web/fileadmin
+    - l10n:/app/web/typo3conf/l10n
+    - typo3temp:/app/web/typo3temp
+    - uploads:/app/web/uploads
+    - configuration:/app/configuration
     depends_on:
     - db
     networks:
@@ -37,8 +43,12 @@ services:
     - MYSQL_PASSWORD=typo3
 
 volumes:
-  typo3:
   db:
+  fileadmin:
+  l10n:
+  typo3temp:
+  uploads:
+  configuration:
 
 networks:
   web-typo3:
