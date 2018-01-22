@@ -1,6 +1,6 @@
 server {
     listen                80;
-    server_name           web.typo3;
+    server_name           ${VHOST};
     root                  /app/web;
     client_max_body_size  100M;
     index                 index.html index.htm index.php;
@@ -22,12 +22,12 @@ server {
     }
 
     location / {
-        try_files $uri $uri/ /index.php$is_args$args;
+        try_files ${DOLLAR}uri ${DOLLAR}uri/ /index.php${DOLLAR}is_args${DOLLAR}args;
     }
 
-    location ~ [^/]\.php(/|$) {
-        fastcgi_split_path_info ^(.+?\.php)(/.*)$;
-        if (!-f $document_root$fastcgi_script_name) {
+    location ~ [^/]\.php(/|${DOLLAR}) {
+        fastcgi_split_path_info ^(.+?\.php)(/.*)${DOLLAR};
+        if (!-f ${DOLLAR}document_root${DOLLAR}fastcgi_script_name) {
             return 404;
         }
         fastcgi_read_timeout 240;

@@ -9,6 +9,8 @@ services:
       web-typo3:
     depends_on:
     - typo3
+    environment:
+    - VHOST=${VHOST}
 
   typo3:
     volumes:

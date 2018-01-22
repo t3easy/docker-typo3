@@ -8,4 +8,8 @@ FROM nginx:alpine
 
 COPY --chown=nginx:nginx --from=composer /app /app
 
-COPY web/typo3.conf /etc/nginx/conf.d/
+COPY web/typo3.conf.template /etc/nginx/conf.d/
+
+ENV VHOST web.typo3
+
+CMD ["sh", "-c", "DOLLAR='$' envsubst < /etc/nginx/conf.d/typo3.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
