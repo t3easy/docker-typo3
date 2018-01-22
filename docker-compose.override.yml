@@ -7,3 +7,14 @@ services:
   typo3:
     # Use YOUR prepared image in production!!!
     image: t3easy/typo3:8.7
+    networks:
+    - 2_mailhog
+
+  mailhog:
+    image: mailhog/mailhog
+    networks:
+    - 2_mailhog
+    - 2_frontend
+
+networks:
+  2_mailhog:
