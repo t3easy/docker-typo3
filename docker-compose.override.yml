@@ -9,6 +9,10 @@ services:
     networks:
     - 2_mailhog
     - 2_frontend
+    labels:
+    - "traefik.enable=true"
+    - "traefik.frontend.rule=Host:mail.${VHOST}"
+    - "traefik.port=8025"
 
 networks:
   2_mailhog:
