@@ -9,6 +9,9 @@ services:
     networks:
     - 2_mailhog
     - 2_frontend
+    environment:
+    - VIRTUAL_HOST=mail.${VHOST}
+    - VIRTUAL_PORT=8025
     labels:
     - "traefik.enable=true"
     - "traefik.frontend.rule=Host:mail.${VHOST}"

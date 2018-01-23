@@ -12,6 +12,7 @@ services:
     - typo3
     environment:
     - VHOST=${VHOST}
+    - VIRTUAL_HOST=${VHOST}
     labels:
     - "traefik.enable=true"
     - "traefik.frontend.rule=Host:${VHOST}"
