@@ -16,6 +16,7 @@ services:
     labels:
     - "traefik.enable=true"
     - "traefik.frontend.rule=Host:${VHOST}"
+    - "traefik.docker.network=${FRONTEND_NETWORK}"
 
   typo3:
     volumes:
@@ -62,4 +63,4 @@ networks:
   typo3-db:
   2_frontend:
     external:
-      name: dockerfrontend_2_apps
+      name: ${FRONTEND_NETWORK}

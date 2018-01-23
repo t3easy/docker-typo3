@@ -16,6 +16,7 @@ services:
     - "traefik.enable=true"
     - "traefik.frontend.rule=Host:mail.${VHOST}"
     - "traefik.port=8025"
+    - "traefik.docker.network=${FRONTEND_NETWORK}"
 
 networks:
   2_mailhog:
