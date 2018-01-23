@@ -8,4 +8,4 @@ services:
   typo3:
     build:
       context: ./.build
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.TYPO3
