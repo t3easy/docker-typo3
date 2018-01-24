@@ -1,47 +1,57 @@
 version: "3.3"
 services:
   web:
-    ports:
-    - "80:80"
     volumes:
-    - typo3:/app
+    - fileadmin:/app/web/fileadmin
+    - typo3temp:/app/web/typo3temp
+    - uploads:/app/web/uploads
     networks:
-      web-typo3:
+    - 2_frontend
+    - web-typo3
     depends_on:
     - typo3
+    environment:
+    - VHOST=${VHOST}
+    - VIRTUAL_HOST=${VHOST}
+    labels:
+    - "traefik.enable=true"
+    - "traefik.frontend.rule=Host:${VHOST}"
+    - "traefik.docker.network=${FRONTEND_NETWORK}"
 
   typo3:
     volumes:
-    - typo3:/app
+    - fileadmin:/app/web/fileadmin
+    - l10n:/app/web/typo3conf/l10n
+    - typo3temp:/app/web/typo3temp
+    - uploads:/app/web/uploads
+    - configuration:/app/configuration
     depends_on:
     - db
     networks:
-      web-typo3:
-        aliases:
-        - typo3
-      typo3-db:
-        aliases:
-        - typo3
+    - web-typo3
+    - typo3-db
 
   db:
     image: mariadb:10.1
     networks:
-      typo3-db:
-        aliases:
-        - db
+    - typo3-db
     command: --character-set-server=utf8 --collation-server=utf8_unicode_ci
     volumes:
     - db:/var/lib/mysql
-    environment:
-    - MYSQL_ROOT_PASSWORD=typo3
-    - MYSQL_DATABASE=typo3
-    - MYSQL_USER=typo3
-    - MYSQL_PASSWORD=typo3
+    env_file:
+    - db.env
 
 volumes:
-  typo3:
   db:
+  fileadmin:
+  l10n:
+  typo3temp:
+  uploads:
+  configuration:
 
 networks:
   web-typo3:
   typo3-db:
+  2_frontend:
+    external:
+      name: ${FRONTEND_NETWORK}

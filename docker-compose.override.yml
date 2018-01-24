@@ -1,9 +1,22 @@
 version: "3.3"
 services:
-  web:
-    # Use YOUR prepared image in production!!!
-    image: t3easy/typo3:web
-
   typo3:
-    # Use YOUR prepared image in production!!!
-    image: t3easy/typo3:8.7
+    networks:
+    - 2_mailhog
+
+  mailhog:
+    image: mailhog/mailhog
+    networks:
+    - 2_mailhog
+    - 2_frontend
+    environment:
+    - VIRTUAL_HOST=mail.${VHOST}
+    - VIRTUAL_PORT=8025
+    labels:
+    - "traefik.enable=true"
+    - "traefik.frontend.rule=Host:mail.${VHOST}"
+    - "traefik.port=8025"
+    - "traefik.docker.network=${FRONTEND_NETWORK}"
+
+networks:
+  2_mailhog:
