@@ -1,10 +1,11 @@
 {
 	"repositories": [
+		{ "type": "path", "url": "packages/*" },
 		{ "type": "composer", "url": "https://composer.typo3.org/" }
 	],
-	"name": "typo3/cms-base-distribution",
-	"description" : "TYPO3 CMS Base Distribution",
-	"license": "GPL-2.0+",
+	"name": "t3easy/typo3-example-distribution",
+	"description" : "TYPO3 CMS Example Distribution",
+	"license": "GPL-2.0-or-later",
 	"require": {
 		"typo3/cms": "^8.7",
 
@@ -26,15 +27,17 @@
 		"typo3/cms-viewpage": "^8.7",
 		"helhum/typo3-console": "^5.0"
 	},
-	"autoload": {
-		"psr-4": {}
-	},
-	"scripts": {
+	"scripts":{
+		"typo3-cms-scripts": [
+			"typo3cms install:fixfolderstructure"
+		],
 		"post-install-cmd": [
-			"# composer install composer.lock file present"
+			"# composer install composer.lock file present",
+			"@typo3-cms-scripts"
 		],
 		"post-update-cmd": [
-			"# composer update or composer install composer.lock NOT file present"
+			"# composer update or composer install composer.lock NOT file present",
+			"@typo3-cms-scripts"
 		]
 	},
 	"extra": {
