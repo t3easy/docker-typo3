@@ -1,0 +1,11 @@
+{
+    "name": "t3easy/typo3-bootcamp",
+    "description": "Environment to develop and run TYPO3 in Docker containers",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Jan Kiesewetter",
+            "email": "jan@t3easy.de"
+        }
+    ]
+}
