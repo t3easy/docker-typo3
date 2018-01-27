@@ -11,7 +11,7 @@ RUN composer exec typo3cms install:generatepackagestates \
     && ln -s ../../configuration/AdditionalFactoryConfiguration.php web/typo3conf/AdditionalFactoryConfiguration.php \
     && ln -s ../../configuration/realurl_conf.php web/typo3conf/realurl_conf.php
 
-FROM t3easy/php:7.1
+FROM t3easy/php:7.2
 
 ENV TYPO3_CONTEXT Development
 
