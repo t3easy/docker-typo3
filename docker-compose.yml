@@ -30,6 +30,8 @@ services:
     networks:
     - web-typo3
     - typo3-db
+    env_file:
+    - .env.typo3
 
   db:
     image: mariadb:10.1
