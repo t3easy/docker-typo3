@@ -7,5 +7,8 @@
             "name": "Jan Kiesewetter",
             "email": "jan@t3easy.de"
         }
-    ]
+    ],
+    "branch-alias": {
+        "8.x-dev": "8.7.x-dev"
+    }
 }
