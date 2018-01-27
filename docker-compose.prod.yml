@@ -1,5 +1,3 @@
 version: "3.3"
 services:
   typo3:
-    environment:
-    - TYPO3_CONTEXT=Production
