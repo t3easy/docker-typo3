@@ -9,6 +9,6 @@
         }
     ],
     "branch-alias": {
-        "9.x-dev": "9.0.x-dev"
+        "dev-master": "9.x-dev"
     }
 }
