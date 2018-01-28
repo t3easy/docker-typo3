@@ -42,7 +42,7 @@ services:
     volumes:
     - db:/var/lib/mysql
     env_file:
-    - db.env
+    - .env.db
 
 volumes:
   db:
