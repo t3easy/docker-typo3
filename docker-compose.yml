@@ -3,7 +3,7 @@ services:
   web:
     volumes:
     - fileadmin:/app/web/fileadmin
-    - typo3temp:/app/web/typo3temp
+    - tmp-assets:/app/web/typo3temp/assets
     - uploads:/app/web/uploads
     networks:
     - 2_frontend
@@ -22,7 +22,8 @@ services:
     volumes:
     - fileadmin:/app/web/fileadmin
     - l10n:/app/web/typo3conf/l10n
-    - typo3temp:/app/web/typo3temp
+    - tmp-assets:/app/web/typo3temp/assets
+    - tmp-var:/app/web/typo3temp/var
     - uploads:/app/web/uploads
     - configuration:/app/configuration
     depends_on:
@@ -47,7 +48,8 @@ volumes:
   db:
   fileadmin:
   l10n:
-  typo3temp:
+  tmp-assets:
+  tmp-var:
   uploads:
   configuration:
 
