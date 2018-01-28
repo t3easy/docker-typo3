@@ -5,7 +5,7 @@ COPY typo3 /app
 RUN composer install --no-ansi --no-interaction --no-progress --classmap-authoritative
 
 RUN composer exec typo3cms install:generatepackagestates \
-    && mkdir configuration \
+    && mkdir -p configuration \
     && ln -s ../../configuration/LocalConfiguration.php web/typo3conf/LocalConfiguration.php \
     && ln -s ../../configuration/AdditionalConfiguration.php web/typo3conf/AdditionalConfiguration.php \
     && ln -s ../../configuration/AdditionalFactoryConfiguration.php web/typo3conf/AdditionalFactoryConfiguration.php \
