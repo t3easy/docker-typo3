@@ -2,7 +2,7 @@ FROM composer:latest AS composer
 
 COPY typo3 /app
 
-RUN composer install --no-ansi --no-interaction --no-progress --classmap-authoritative
+RUN composer install --no-ansi --no-interaction --no-progress --classmap-authoritative --ignore-platform-reqs
 
 RUN composer exec typo3cms install:generatepackagestates \
     && mkdir -p configuration \
