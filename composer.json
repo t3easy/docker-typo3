@@ -9,6 +9,6 @@
         }
     ],
     "branch-alias": {
-        "8.x-dev": "8.7.x-dev"
+        "7.x-dev": "7.6.x-dev"
     }
 }
