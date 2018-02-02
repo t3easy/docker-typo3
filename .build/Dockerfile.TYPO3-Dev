@@ -16,3 +16,5 @@ FROM t3easy/php-dev:7.1
 ENV TYPO3_CONTEXT Development
 
 COPY --chown=82 --from=composer /app .
+
+ENV PATH "/app/vendor/bin:$PATH"
