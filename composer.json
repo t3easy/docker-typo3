@@ -8,7 +8,9 @@
             "email": "jan@t3easy.de"
         }
     ],
-    "branch-alias": {
-        "dev-master": "9.x-dev"
+    "extra": {
+        "branch-alias": {
+            "dev-master": "9.x-dev"
+        }
     }
 }
