@@ -1,0 +1,15 @@
+version: "3.3"
+services:
+  typo3:
+    environment:
+    - REDIS_HOST=redis
+    networks:
+    - typo3-redis
+
+  redis:
+    image: redis
+    networks:
+    - typo3-redis
+
+networks:
+  typo3-redis:
