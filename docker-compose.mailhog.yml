@@ -2,21 +2,21 @@ version: '3.5'
 services:
   typo3:
     networks:
-    - 2_mailhog
+      2_mailhog:
 
   mailhog:
     image: mailhog/mailhog
     networks:
-    - 2_mailhog
-    - 2_frontend
+      2_mailhog:
+      2_frontend:
     environment:
-    - VIRTUAL_HOST=mail.${VHOST}
-    - VIRTUAL_PORT=8025
+      VIRTUAL_HOST: mail.${VHOST}
+      VIRTUAL_PORT: '8025'
     labels:
-    - "traefik.enable=true"
-    - "traefik.frontend.rule=Host:mail.${VHOST}"
-    - "traefik.port=8025"
-    - "traefik.docker.network=${FRONTEND_NETWORK}"
+      traefik.docker.network: ${FRONTEND_NETWORK}"
+      traefik.enable: "true"
+      traefik.frontend.rule: Host:mail.${VHOST}
+      traefik.port: '8025'
 
 networks:
   2_mailhog:
