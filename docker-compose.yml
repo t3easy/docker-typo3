@@ -32,6 +32,7 @@ services:
     - web-typo3
     - typo3-db
     env_file:
+    - .env.db
     - .env.typo3
 
   db:
