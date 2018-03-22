@@ -11,7 +11,7 @@ services:
     depends_on:
     - typo3
     environment:
-    - VHOST=${VHOST}
+    - VHOST
     - VIRTUAL_HOST=${VHOST}
     labels:
     - "traefik.enable=true"
