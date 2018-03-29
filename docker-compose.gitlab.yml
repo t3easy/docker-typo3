@@ -1,0 +1,7 @@
+version: '3.5'
+services:
+  web:
+    image: ${CI_REGISTRY_IMAGE}/web
+
+  typo3:
+    image: ${CI_REGISTRY_IMAGE}/typo3
