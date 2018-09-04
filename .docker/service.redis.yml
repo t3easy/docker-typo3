@@ -1,0 +1,16 @@
+version: '3.5'
+services:
+  typo3:
+    environment:
+      REDIS_HOST: redis
+    networks:
+      typo3-redis:
+
+  redis:
+    image: redis
+    networks:
+      typo3-redis:
+    restart: ${RESTART}
+
+networks:
+  typo3-redis:

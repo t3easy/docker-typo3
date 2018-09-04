@@ -1,0 +1,20 @@
+version: '3.5'
+services:
+  db:
+    networks:
+      adminer-db:
+
+  adminer:
+    image: adminer
+    networks:
+      adminer-db:
+      frontend:
+    labels:
+      traefik.docker.network: ${FRONTEND_NETWORK}
+      traefik.enable: "true"
+      traefik.frontend.rule: Host:adminer.${VHOST}
+      traefik.port: '8080'
+    restart: ${RESTART}
+
+networks:
+  adminer-db:

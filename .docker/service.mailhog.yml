@@ -1,0 +1,23 @@
+version: '3.5'
+services:
+  typo3:
+    environment:
+      SMTP_SERVER: mailhog
+      SMTP_PORT: '1025'
+    networks:
+      typo3-mailhog:
+
+  mailhog:
+    image: mailhog/mailhog
+    networks:
+      typo3-mailhog:
+      frontend:
+    labels:
+      traefik.docker.network: ${FRONTEND_NETWORK}
+      traefik.enable: "true"
+      traefik.frontend.rule: Host:mail.${VHOST}
+      traefik.port: '8025'
+    restart: ${RESTART}
+
+networks:
+  typo3-mailhog:

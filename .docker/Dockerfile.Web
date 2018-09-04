@@ -1,6 +1,9 @@
 FROM composer:latest AS composer
 
-COPY typo3 /app
+COPY . /app
+
+# Remove .docker because it cannot be excluded with .dockerignore
+RUN rm -rf /app/.docker
 
 RUN composer install --no-ansi --no-interaction --no-dev --no-progress --classmap-authoritative --ignore-platform-reqs
 
@@ -8,10 +11,10 @@ FROM nginx:alpine
 
 COPY --chown=82 --from=composer /app /app
 
-COPY web/typo3.conf /etc/nginx/
-COPY web/default.conf.template /etc/nginx/conf.d/
+COPY .docker/web/typo3.conf /etc/nginx/
+COPY .docker/web/default.conf.template /etc/nginx/conf.d/
 
-ENV VHOST web.typo3
+ENV VHOST typo3.localhost
 
 CMD ["sh", "-c", "envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
 

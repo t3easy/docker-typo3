@@ -8,9 +8,49 @@
             "email": "jan@t3easy.de"
         }
     ],
+    "config": {
+        "platform": {
+            "php": "7.2"
+        }
+    },
+    "require": {
+        "helhum/typo3-console": "^5.3",
+        "typo3/cms-about": "^8.7.10",
+        "typo3/cms-belog": "^8.7.10",
+        "typo3/cms-beuser": "^8.7.10",
+        "typo3/cms-context-help": "^8.7.10",
+        "typo3/cms-documentation": "^8.7.10",
+        "typo3/cms-felogin": "^8.7.10",
+        "typo3/cms-fluid-styled-content": "^8.7.10",
+        "typo3/cms-form": "^8.7.10",
+        "typo3/cms-func": "^8.7.10",
+        "typo3/cms-impexp": "^8.7.10",
+        "typo3/cms-info": "^8.7.10",
+        "typo3/cms-info-pagetsconfig": "^8.7.10",
+        "typo3/cms-rte-ckeditor": "^8.7.10",
+        "typo3/cms-setup": "^8.7.10",
+        "typo3/cms-sys-note": "^8.7.10",
+        "typo3/cms-t3editor": "^8.7.10",
+        "typo3/cms-tstemplate": "^8.7.10",
+        "typo3/cms-viewpage": "^8.7.10",
+        "typo3/cms-wizard-crpages": "^8.7.10",
+        "typo3/cms-wizard-sortpages": "^8.7.10"
+    },
+    "require-dev": {
+        "typo3/cms-lowlevel": "^8.7.10"
+    },
+    "scripts":{
+        "typo3-cms-scripts": [
+            "typo3cms install:fixfolderstructure",
+            "typo3cms install:generatepackagestates"
+        ],
+        "post-autoload-dump": [
+            "@typo3-cms-scripts"
+        ]
+    },
     "extra": {
-        "branch-alias": {
-            "8.x-dev": "8.7.x-dev"
+        "typo3/cms": {
+            "web-dir": "public"
         }
     }
 }

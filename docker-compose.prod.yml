@@ -1,7 +1,0 @@
-version: "3.3"
-services:
-  web:
-    image: ${IMAGE_PRODUCTION}-web
-
-  typo3:
-    image: ${IMAGE_PRODUCTION}

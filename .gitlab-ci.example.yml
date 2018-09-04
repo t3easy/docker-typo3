@@ -1,0 +1,50 @@
+image: docker:stable
+
+variables:
+  DOCKER_TLS_VERIFY: "1"
+  DOCKER_CERT_PATH: ".docker-cert"
+
+before_script:
+- apk add --no-cache py-pip
+- pip install --no-cache-dir docker-compose
+- mkdir -p $DOCKER_CERT_PATH
+- echo "$DOCKER_CA" > $DOCKER_CERT_PATH/ca.pem
+- echo "$DOCKER_CERT" > $DOCKER_CERT_PATH/cert.pem
+- echo "$DOCKER_KEY" > $DOCKER_CERT_PATH/key.pem
+- docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
+after_script:
+- docker logout $CI_REGISTRY
+- rm -rf $DOCKER_CERT_PATH
+
+.dedicated-runner: &dedicated-runner
+  tags:
+  - docker
+  - linux
+
+build:
+  <<: *dedicated-runner
+  stage: build
+  variables:
+    DOCKER_HOST: "tcp://docker-host:2376"
+    COMPOSE_FILE: ".docker/build.yml:.docker/env.gitlab.yml"
+    REDIS: "1"
+    LDAP: "0"
+  script:
+  - docker-compose build --pull
+  - docker-compose push
+
+deploy:live:
+  <<: *dedicated-runner
+  stage: deploy
+  variables:
+    DOCKER_HOST: "tcp://docker-host:2376"
+    COMPOSE_FILE: "docker-compose.yml:.docker/service.redis.yml:.docker/env.prod.yml:.docker/env.gitlab.yml"
+    VHOST: "www.domain.tld"
+    FRONTEND_NETWORK: "frontend"
+    DOCKER_CACHE_CONFIG: ""
+    RESTART: "always"
+    DB_IMAGE: "mariadb:10.1"
+  script:
+  - docker-compose pull
+  - docker-compose up -d
