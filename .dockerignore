@@ -1,10 +1,12 @@
+.DS_Store
+.idea
+nbproject
 /.docker/*
 !/.docker/ca-certificates
 !/.docker/web
 /.dockerignore
 /.env*
 /.git*
-/.idea
 /.surf
 /docker-compose.yml
 /public/*
