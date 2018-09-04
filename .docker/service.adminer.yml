@@ -8,15 +8,13 @@ services:
     image: adminer
     networks:
       adminer-db:
-      2_frontend:
-    environment:
-      VIRTUAL_HOST: adminer.${VHOST}
-      VIRTUAL_PORT: '8080'
+      frontend:
     labels:
       traefik.docker.network: ${FRONTEND_NETWORK}
       traefik.enable: "true"
       traefik.frontend.rule: Host:adminer.${VHOST}
       traefik.port: '8080'
+    restart: ${RESTART}
 
 networks:
   adminer-db:

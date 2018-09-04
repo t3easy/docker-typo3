@@ -1,0 +1,10 @@
+version: '3.5'
+services:
+  web:
+    build:
+      dockerfile: .docker/Dockerfile.Web-Dev
+
+  typo3:
+    build:
+      dockerfile: .docker/Dockerfile.TYPO3-Dev
+
