@@ -3,17 +3,17 @@
 $context = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
 $isDocker = file_exists('/.dockerenv');
 
-if (getenv('MYSQL_HOST') !== false) {
-    $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default'] = [
-        'charset' => 'utf8',
-        'dbname' => getenv('MYSQL_DATABASE'),
-        'driver' => 'mysqli',
-        'host' => getenv('MYSQL_HOST'),
-        'password' => getenv('MYSQL_PASSWORD'),
-        'port' => 3306,
-        'unix_socket' => '',
-        'user' => getenv('MYSQL_USER')
-    ];
+$mysql = [
+    'dbname' => getenv('MYSQL_DATABASE'),
+    'host' => getenv('MYSQL_HOST'),
+    'password' => getenv('MYSQL_PASSWORD'),
+    'user' => getenv('MYSQL_USER')
+];
+if ($mysql['dbname'] && $mysql['host'] && $mysql['password'] && $mysql['user']) {
+    $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default'] = array_merge(
+        ['charset' => 'utf8', 'driver' => 'mysqli', 'port' => 3306, 'unix_socket' => ''],
+        $mysql
+    );
 }
 
 if (getenv('SMTP_SERVER') !== false) {
