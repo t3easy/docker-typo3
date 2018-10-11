@@ -43,6 +43,18 @@ if (getenv('REDIS_HOST') !== false && extension_loaded('redis')) {
 }
 
 if ($isDocker) {
+    $GLOBALS['TYPO3_CONF_VARS']['GFX'] = array_merge(
+        $GLOBALS['TYPO3_CONF_VARS']['GFX'],
+        [
+            'processor' => 'GraphicsMagick',
+            'processor_allowTemporaryMasksAsPng' => false,
+            'processor_colorspace' => 'RGB',
+            'processor_effects' => false,
+            'processor_enabled' => true,
+            'processor_path' => '/usr/bin/',
+            'processor_path_lzw' => '/usr/bin/',
+        ]
+    );
     $GLOBALS['TYPO3_CONF_VARS']['LOG']['writerConfiguration'] = [
         \TYPO3\CMS\Core\Log\LogLevel::WARNING => [
             \TYPO3\CMS\Core\Log\Writer\PhpErrorLogWriter::class => []
