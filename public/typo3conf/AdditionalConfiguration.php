@@ -4,14 +4,16 @@ $context = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
 $isDocker = file_exists('/.dockerenv');
 
 if (getenv('MYSQL_HOST') !== false) {
-    $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['charset'] = 'utf8';
-    $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['dbname'] = getenv('MYSQL_DATABASE');
-    $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['driver'] = 'mysqli';
-    $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['host'] = getenv('MYSQL_HOST');
-    $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['password'] = getenv('MYSQL_PASSWORD');
-    $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['port'] = 3306;
-    $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['unix_socket'] = '';
-    $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['user'] = getenv('MYSQL_USER');
+    $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default'] = [
+        'charset' => 'utf8',
+        'dbname' => getenv('MYSQL_DATABASE'),
+        'driver' => 'mysqli',
+        'host' => getenv('MYSQL_HOST'),
+        'password' => getenv('MYSQL_PASSWORD'),
+        'port' => 3306,
+        'unix_socket' => '',
+        'user' => getenv('MYSQL_USER')
+    ];
 }
 
 if (getenv('SMTP_SERVER') !== false) {
