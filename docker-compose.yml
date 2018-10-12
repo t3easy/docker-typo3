@@ -4,6 +4,8 @@ services:
     networks:
       frontend:
       web-typo3:
+        aliases:
+        - ${VHOST}
     depends_on:
     - typo3
     environment:
