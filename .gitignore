@@ -3,12 +3,12 @@
 .DS_Store
 .idea
 nbproject
-/var
+/var/*
+!/var/labels
 /vendor
 /public/*
 !/public/.htaccess
 !/public/typo3conf
 /public/typo3conf/*
-!/public/typo3conf/l10n/
 !/public/typo3conf/*.php
 /public/typo3conf/PackageStates.php
