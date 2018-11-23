@@ -48,3 +48,5 @@ deploy:live:
   script:
   - docker-compose pull
   - docker-compose up -d
+  - docker-compose exec -u www-data typo3 typo3cms extension:setupactive
+  - docker-compose exec -u www-data typo3 typo3cms cache:flush --force
