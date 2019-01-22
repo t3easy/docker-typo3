@@ -21,24 +21,32 @@ if (getenv('SMTP_SERVER') !== false) {
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_server'] = getenv('SMTP_SERVER') . ':' . getenv('SMTP_PORT');
 }
 
-if (getenv('REDIS_HOST') !== false && extension_loaded('redis')) {
-    $caches = [
-        'cache_hash' => 86400,
-        'cache_imagesizes' => 0,
-        'cache_pages' => 86400,
-        'cache_pagesection' => 86400,
-        'cache_rootline' => 86400,
-        'extbase_reflection' => 0,
-        'extbase_datamapfactory_datamap' => 0
-    ];
+$caches = [
+    'cache_hash' => 86400,
+    'cache_imagesizes' => 0,
+    'cache_pages' => 86400,
+    'cache_pagesection' => 86400,
+    'cache_rootline' => 86400,
+    'extbase_reflection' => 0,
+    'extbase_datamapfactory_datamap' => 0
+];
 
+if (($redisHost = getenv('REDIS_HOST')) && extension_loaded('redis')) {
     $counter = 3;
     foreach ($caches as $cache => $defaultLifetime) {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['backend'] = \TYPO3\CMS\Core\Cache\Backend\RedisBackend::class;
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['options'] = [
             'database' => $counter++,
-            'hostname' => getenv('REDIS_HOST'),
-            'port' => (getenv('REDIS_PORT') !== false ? getenv('REDIS_PORT') : 6379),
+            'hostname' => $redisHost,
+            'port' => ($redisPort = getenv('REDIS_PORT') ? (int)$redisPort : 6379),
+            'defaultLifetime' => $defaultLifetime
+        ];
+    }
+} elseif ((($isApc = extension_loaded('apc')) || extension_loaded('apcu')) && ini_get('apc.enabled')) {
+    foreach ($caches as $cache => $defaultLifetime) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['backend'] =
+            $isApc ? \TYPO3\CMS\Core\Cache\Backend\ApcBackend::class : \TYPO3\CMS\Core\Cache\Backend\ApcuBackend::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['backend']['options'] = [
             'defaultLifetime' => $defaultLifetime
         ];
     }
