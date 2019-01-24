@@ -91,3 +91,16 @@ See `.gitlab-ci.example.yml`.
 See `.gitlab-ci.example.yml` for an example how to deploy to docker hosts with GitLab CI.
 Consider to set `COMPOSE_PROJECT_NAME` at the deploy job, to be able to deploy the project multiple times to the same docker-host, e.g. testing, staging and live.
 <https://docs.docker.com/compose/reference/envvars/#compose_project_name>
+
+## Access the database during development via tcp
+A dynamic port is mapped to the database service port 3306. To get this port run:
+```bash
+docker-compose ps db
+```
+You'll get something like:
+```
+      Name                    Command               State             Ports          
+-------------------------------------------------------------------------------------
+project_db_1       docker-entrypoint.sh --cha ...   Up      127.0.0.1:32770->3306/tcp
+```
+where `32770` is the port on the local docker host to connect to. 
