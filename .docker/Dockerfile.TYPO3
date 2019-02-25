@@ -14,26 +14,33 @@ FROM t3easy/php:7.2
 COPY .docker/ca-certificates /usr/local/share/ca-certificates
 RUN update-ca-certificates
 
-# Install PHP LDAP extension
 ARG LDAP=1
-RUN if [ "$LDAP" = "1" ]; then \
-        apk add --no-cache libldap && \
-        apk add --no-cache --virtual .build-deps \
-            openldap-dev && \
-        docker-php-ext-install ldap && \
-        apk del .build-deps; \
-    fi
-
-# Install PHP Redis extension
 ARG REDIS=1
-RUN if [ "$REDIS" = "1" ]; then \
-        apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS && \
-        pecl install redis && \
-        docker-php-ext-enable redis && \
-        apk del .phpize-deps && \
+RUN set -ex; \
+    \
+    apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
+        openldap-dev \
+    ; \
+    if [ "$LDAP" = "1" ]; then \
+        docker-php-ext-configure ldap; \
+        docker-php-ext-install ldap; \
+    fi; \
+    \
+    if [ "$REDIS" = "1" ]; then \
+        pecl install redis-4.2.0; \
+        docker-php-ext-enable redis; \
         rm -rf /tmp/pear; \
-    fi
-
+    fi; \
+    \
+    runDeps="$( \
+        scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
+            | tr ',' '\n' \
+            | sort -u \
+            | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+    )"; \
+    apk add --virtual .typo3-phpext-rundeps $runDeps; \
+    apk del .build-deps
 
 COPY --chown=82 --from=composer /app .
 
