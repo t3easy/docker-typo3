@@ -104,3 +104,11 @@ You'll get something like:
 project_db_1       docker-entrypoint.sh --cha ...   Up      127.0.0.1:32770->3306/tcp
 ```
 where `32770` is the port on the local docker host to connect to. 
+
+## Run TYPO3 Console commands
+
+To run a command inside the TYPO3 PHP Container use `docker-compose`:
+E.g. flush the cache
+```
+docker-compose exec -u www-data typo3 typo3cms cache:flush --force
+``
