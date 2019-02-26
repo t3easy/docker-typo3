@@ -16,9 +16,9 @@ if ($mysql['dbname'] && $mysql['host'] && $mysql['password'] && $mysql['user']) 
     );
 }
 
-if (getenv('SMTP_SERVER') !== false) {
+if (($smtpServer = getenv('SMTP_SERVER')) && ($smtpPort = getenv('SMTP_PORT'))) {
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] = 'smtp';
-    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_server'] = getenv('SMTP_SERVER') . ':' . getenv('SMTP_PORT');
+    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_server'] = $smtpServer . ':' . $smtpPort;
 }
 
 $caches = [
