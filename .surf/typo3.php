@@ -9,14 +9,13 @@ $node
 
 $application = new \TYPO3\Surf\Application\TYPO3\CMS();
 $application
-    ->addNode($node)
     ->setDeploymentPath('/httpdocs')
-    ->setOption('repositoryUrl', 'file://' . dirname(__DIR__))
-    ->setOption('keepReleases', 3)
-    ->setOption('baseUrl', 'https://www.project.tld/')
-    ->setOption('composerCommandPath', 'composer')
+    ->setOption('baseUrl', 'https://my.node.com/')
     ->setOption('webDirectory', 'public')
     ->setOption('symlinkDataFolders', ['fileadmin'])
+    ->setOption('repositoryUrl', 'file://' . dirname(__DIR__))
+    ->setOption('keepReleases', 3)
+    ->setOption('composerCommandPath', 'composer')
     ->setOption('rsyncExcludes', [
         '.docker*',
         '.editorconfig',
@@ -28,7 +27,8 @@ $application
         'README.md'
     ])
     ->setOption('scriptBasePath', \TYPO3\Flow\Utility\Files::concatenatePaths([$deployment->getWorkspacePath($application), $application->getOption('webDirectory')]))
-    ->addSymlink($application->getOption('webDirectory') . '/typo3conf/LocalConfiguration.php', '../../../../shared/Configuration/LocalConfiguration.php');
+    ->addSymlink($application->getOption('webDirectory') . '/typo3conf/LocalConfiguration.php', '../../../../shared/Configuration/LocalConfiguration.php')
+    ->addNode($node);
 
 $deployment
     ->addApplication($application)
@@ -36,8 +36,10 @@ $deployment
         function () use ($deployment, $application) {
             $deployment->getWorkflow()
                 ->beforeTask(\TYPO3\Surf\Task\TYPO3\CMS\SetUpExtensionsTask::class, \TYPO3\Surf\Task\TYPO3\CMS\CompareDatabaseTask::class, $application)
-                ->beforeStage('transfer', TYPO3\Surf\Task\Php\WebOpcacheResetCreateScriptTask::class, $application)
+                ->beforeStage('transfer', \TYPO3\Surf\Task\Php\WebOpcacheResetCreateScriptTask::class, $application)
                 ->afterStage('switch', \TYPO3\Surf\Task\Php\WebOpcacheResetExecuteTask::class, $application)
+                // CreatePackageStatesTask is done by post-autoload-dump script and can be removed
+                // https://github.com/TYPO3/TYPO3.CMS.BaseDistribution/blob/9.x/composer.json#L38
                 ->removeTask(\TYPO3\Surf\Task\TYPO3\CMS\CreatePackageStatesTask::class, $application)
                 ->removeTask(\TYPO3\Surf\Task\TYPO3\CMS\CopyConfigurationTask::class, $application);
         }
