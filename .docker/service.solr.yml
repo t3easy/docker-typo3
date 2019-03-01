@@ -1,0 +1,20 @@
+version: '3.5'
+services:
+  typo3:
+    networks:
+      typo3-solr:
+
+  solr:
+    image: ${SOLR_IMAGE}
+    networks:
+      typo3-solr:
+    volumes:
+    - solr:/opt/solr/server/solr/data
+    restart: ${RESTART}
+
+networks:
+  typo3-solr:
+
+volumes:
+  solr:
+
