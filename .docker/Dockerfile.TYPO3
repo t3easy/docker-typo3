@@ -7,6 +7,8 @@ RUN rm -rf /app/.docker
 
 RUN composer install --no-ansi --no-interaction --no-dev --no-progress --classmap-authoritative --ignore-platform-reqs
 
+RUN mkdir -p /app/config
+
 RUN composer exec typo3cms install:generatepackagestates
 
 FROM t3easy/php:7.2
