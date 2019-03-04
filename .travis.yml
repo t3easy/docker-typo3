@@ -3,9 +3,6 @@ addons:
     packages:
       - docker-ce
 
-env:
-  - DOCKER_COMPOSE_VERSION=1.23.2
-
 before_install:
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
@@ -20,6 +17,7 @@ jobs:
       sudo: required
       env:
         - COMPOSE_FILE=docker-compose.yml:.docker/service.redis.yml:.docker/env.prod.yml:.docker/build.yml
+        - DOCKER_COMPOSE_VERSION=1.23.2
         - DB_IMAGE=mariadb:10.2
         - FRONTEND_NETWORK=frontend
         - MYSQL_ROOT_PASSWORD=mySecurePassword
