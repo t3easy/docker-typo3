@@ -8,8 +8,6 @@ services:
         - ${VHOST}
     depends_on:
     - typo3
-    environment:
-      VHOST:
     labels:
       traefik.docker.network: ${FRONTEND_NETWORK}
       traefik.enable: "true"
@@ -26,6 +24,7 @@ services:
     - .docker/.env.db
     environment:
       MYSQL_HOST: db
+      TRUSTED_HOSTS_PATTERN:
     restart: ${RESTART}
 
   db:

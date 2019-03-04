@@ -3,6 +3,10 @@
 $context = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
 $isDocker = file_exists('/.dockerenv');
 
+if ($trustedHostsPattern = getenv('TRUSTED_HOSTS_PATTERN')) {
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['trustedHostsPattern'] = $trustedHostsPattern;
+}
+
 $mysql = [
     'dbname' => getenv('MYSQL_DATABASE'),
     'host' => getenv('MYSQL_HOST'),
