@@ -20,6 +20,7 @@ jobs:
         - DOCKER_COMPOSE_VERSION=1.23.2
         - DB_IMAGE=mariadb:10.2
         - FRONTEND_NETWORK=frontend
+        - LDAP=0
         - MYSQL_ROOT_PASSWORD=mySecurePassword
         - REDIS=1
         - RESTART=no
@@ -35,6 +36,7 @@ jobs:
         - docker-compose --version
         - docker network create frontend
         - docker-compose up -d --build
+        - sleep 10
       script:
         - docker-compose exec -u www-data typo3 typo3cms install:setup --no-interaction
       after_script:
