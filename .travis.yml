@@ -33,6 +33,7 @@ jobs:
       before_script:
         - docker --version
         - docker-compose --version
+        - docker network create frontend
         - docker-compose up -d --build
       script:
         - docker-compose exec -u www-data typo3 typo3cms install:setup --no-interaction
