@@ -1,3 +1,8 @@
+addons:
+  apt:
+    packages:
+      - docker-ce
+
 jobs:
   include:
     - stage: Test
@@ -19,6 +24,8 @@ jobs:
         - TYPO3_INSTALL_WEB_SERVER_CONFIG=none
         - VHOST=typo3.localhost
       before_script:
+        - docker --version
+        - docker-compose --version
         - docker-compose up -d --build
       script:
         - docker-compose exec -u www-data typo3 typo3cms install:setup --no-interaction
