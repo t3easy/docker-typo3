@@ -6,6 +6,8 @@ services:
 
   adminer:
     image: adminer
+    depends_on:
+    - db
     networks:
       adminer-db:
       frontend:
