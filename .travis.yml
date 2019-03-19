@@ -16,7 +16,7 @@ jobs:
         - docker
       sudo: required
       env:
-        - COMPOSE_FILE=docker-compose.yml:.docker/service.redis.yml:.docker/env.prod.yml:.docker/env.setup.yml:.docker/build.yml
+        - COMPOSE_FILE=docker-compose.yml:.docker/service.db.yml:.docker/service.redis.yml:.docker/env.prod.yml:.docker/env.setup.yml:.docker/build.yml
         - DOCKER_COMPOSE_VERSION=1.23.2
         - DB_IMAGE=mariadb:10.2
         - FRONTEND_NETWORK=frontend
