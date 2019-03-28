@@ -78,6 +78,15 @@ MYSQL_ROOT_PASSWORD=MyV3rySecretP4sswd docker-compose up -d
 ```
 or set it in CI variables.
 
+### DB_BIND_TO
+Bind the db service to a specified ip and port.
+Format `IP:Port`
+Use `127.0.0.1:` to publish a dynamic port to localhost only.
+Use `127.0.0.1:13306` to publish the port `13306`.
+Use `13306` to publish `13306` to all available IP. ATTENTION! That allows access from anywhere!
+The port is mapped to 3306, the MySQL/MariaDB port, inside the container.
+See [Access the database during development via tcp](#access-the-database-during-development-via-tcp)
+
 ### REDIS and LDAP
 Build the TYPO3 image with that PHP extensions.
 
