@@ -16,7 +16,7 @@ jobs:
       services:
         - docker
       sudo: required
-      env: &default_env
+      env:
         - COMPOSE_FILE=docker-compose.yml:.docker/service.db.yml:.docker/service.redis.yml:.docker/env.prod.yml:.docker/env.setup.yml:.docker/build.yml
         - DOCKER_COMPOSE_VERSION=1.23.2
         - DB_IMAGE=mariadb:10.2
@@ -44,9 +44,20 @@ jobs:
         - docker-compose down -v
     - <<: *build_and_install
       env:
-        - <: *default_env
         - COMPOSE_FILE=docker-compose.yml:.docker/env.prod.yml:.docker/env.setup.yml:.docker/build.yml
+        - DOCKER_COMPOSE_VERSION=1.23.2
+        - FRONTEND_NETWORK=frontend
+        - LDAP=0
+        - REDIS=0
+        - RESTART=no
+        - TRUSTED_HOSTS_PATTERN=.*
+        - TYPO3_INSTALL_ADMIN_USER=travis
+        - TYPO3_INSTALL_ADMIN_PASSWORD=mySecurePassword
         - TYPO3_INSTALL_DB_DRIVER=pdo_sqlite
+        - TYPO3_INSTALL_SITE_NAME=Travis Test
+        - TYPO3_INSTALL_SITE_SETUP_TYPE=site
+        - TYPO3_INSTALL_WEB_SERVER_CONFIG=none
+        - VHOST=typo3.localhost
       script:
         - docker-compose exec -u www-data typo3 composer require helhum/typo3-console:5.x-dev
         - docker-compose exec -u www-data typo3 typo3cms install:setup --no-interaction
