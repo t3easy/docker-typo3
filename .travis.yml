@@ -44,7 +44,7 @@ jobs:
         - docker-compose down -v
     - <<: *build_and_install
       env:
-        - <<: *default_env
+        - <: *default_env
         - COMPOSE_FILE=docker-compose.yml:.docker/env.prod.yml:.docker/env.setup.yml:.docker/build.yml
         - TYPO3_INSTALL_DB_DRIVER=pdo_sqlite
       script:
