@@ -11,11 +11,12 @@ before_install:
 
 jobs:
   include:
-    - stage: Test
+    - &build_and_install
+      stage: Test
       services:
         - docker
       sudo: required
-      env:
+      env: &default_env
         - COMPOSE_FILE=docker-compose.yml:.docker/service.db.yml:.docker/service.redis.yml:.docker/env.prod.yml:.docker/env.setup.yml:.docker/build.yml
         - DOCKER_COMPOSE_VERSION=1.23.2
         - DB_IMAGE=mariadb:10.2
@@ -41,3 +42,11 @@ jobs:
         - docker-compose exec -u www-data typo3 typo3cms install:setup --no-interaction
       after_script:
         - docker-compose down -v
+    - <<: *build_and_install
+      env:
+        - <<: *default_env
+        - COMPOSE_FILE=docker-compose.yml:.docker/env.prod.yml:.docker/env.setup.yml:.docker/build.yml
+        - TYPO3_INSTALL_DB_DRIVER=pdo_sqlite
+      script:
+        - docker-compose exec -u www-data typo3 composer require helhum/typo3-console:5.x-dev
+        - docker-compose exec -u www-data typo3 typo3cms install:setup --no-interaction
