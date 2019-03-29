@@ -1,3 +1,6 @@
+language: php
+dist: xenial
+
 addons:
   apt:
     packages:
@@ -8,6 +11,9 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
+  - docker --version
+  - docker-compose --version
+  - docker network create frontend
 
 jobs:
   include:
@@ -33,9 +39,6 @@ jobs:
         - TYPO3_INSTALL_WEB_SERVER_CONFIG=none
         - VHOST=typo3.localhost
       before_script:
-        - docker --version
-        - docker-compose --version
-        - docker network create frontend
         - docker-compose up -d --build
         - sleep 10
       script:
@@ -47,6 +50,7 @@ jobs:
         - <: *default_env
         - COMPOSE_FILE=docker-compose.yml:.docker/env.prod.yml:.docker/env.setup.yml:.docker/build.yml
         - TYPO3_INSTALL_DB_DRIVER=pdo_sqlite
+      install:
+        - composer require helhum/typo3-console:5.x-dev --no-update
       script:
-        - docker-compose exec -u www-data typo3 composer require helhum/typo3-console:5.x-dev
         - docker-compose exec -u www-data typo3 typo3cms install:setup --no-interaction
