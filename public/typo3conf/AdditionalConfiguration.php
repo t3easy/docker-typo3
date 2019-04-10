@@ -25,33 +25,35 @@ if (($smtpServer = getenv('SMTP_SERVER')) && ($smtpPort = getenv('SMTP_PORT'))) 
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_smtp_server'] = $smtpServer . ':' . $smtpPort;
 }
 
+$oneDay = 86400;
 $caches = [
-    'cache_hash' => 86400,
+    'cache_hash' => 1 * $oneDay,
     'cache_imagesizes' => 0,
-    'cache_pages' => 86400,
-    'cache_pagesection' => 86400,
-    'cache_rootline' => 86400,
+    'cache_pages' => 1 * $oneDay,
+    'cache_pagesection' => 1 * $oneDay,
+    'cache_rootline' => 1 * $oneDay,
     'extbase_reflection' => 0,
     'extbase_datamapfactory_datamap' => 0
 ];
 
 if (($redisHost = getenv('REDIS_HOST')) && extension_loaded('redis')) {
+    $redisPort = getenv('REDIS_PORT');
     $counter = 3;
     foreach ($caches as $cache => $defaultLifetime) {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['backend'] = \TYPO3\CMS\Core\Cache\Backend\RedisBackend::class;
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['options'] = [
             'database' => $counter++,
             'hostname' => $redisHost,
-            'port' => ($redisPort = getenv('REDIS_PORT') ? (int)$redisPort : 6379),
+            'port' => $redisPort !== false ? (int)$redisPort : 6379,
             'defaultLifetime' => $defaultLifetime
         ];
     }
-} elseif ((($isApc = extension_loaded('apc')) || extension_loaded('apcu')) && ini_get('apc.enabled')) {
+} elseif (($isApcuLoaded = extension_loaded('apcu') || extension_loaded('apc')) && ini_get('apc.enabled')) {
     foreach ($caches as $cache => $defaultLifetime) {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['backend'] =
-            $isApc ? \TYPO3\CMS\Core\Cache\Backend\ApcBackend::class : \TYPO3\CMS\Core\Cache\Backend\ApcuBackend::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['backend']['options'] = [
-            'defaultLifetime' => $defaultLifetime
+            $isApcuLoaded ? \TYPO3\CMS\Core\Cache\Backend\ApcuBackend::class : \TYPO3\CMS\Core\Cache\Backend\ApcBackend::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['options'] = [
+            'defaultLifetime' => $defaultLifetime,
         ];
     }
 }
