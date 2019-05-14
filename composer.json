@@ -8,13 +8,9 @@
             "email": "jan@t3easy.de"
         }
     ],
-    "config": {
-        "platform": {
-            "php": "7.2"
-        }
-    },
     "require": {
         "helhum/typo3-console": "^5.3",
+        "helhum/typo3-secure-web": "^0.2.8",
         "typo3/cms-about": "^8.7.10",
         "typo3/cms-belog": "^8.7.10",
         "typo3/cms-beuser": "^8.7.10",
@@ -39,18 +35,24 @@
     "require-dev": {
         "typo3/cms-lowlevel": "^8.7.10"
     },
-    "scripts":{
-        "typo3-cms-scripts": [
-            "typo3cms install:fixfolderstructure",
-            "typo3cms install:generatepackagestates"
-        ],
-        "post-autoload-dump": [
-            "@typo3-cms-scripts"
-        ]
+    "config": {
+        "platform": {
+            "php": "7.2"
+        }
     },
     "extra": {
         "typo3/cms": {
+            "root-dir": "private",
             "web-dir": "public"
         }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@typo3-cms-scripts"
+        ],
+        "typo3-cms-scripts": [
+            "typo3cms install:fixfolderstructure",
+            "typo3cms install:generatepackagestates"
+        ]
     }
 }
