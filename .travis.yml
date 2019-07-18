@@ -24,7 +24,7 @@ jobs:
       sudo: required
       env: &default_env
         - COMPOSE_FILE=docker-compose.yml:.docker/service.db.yml:.docker/service.db.prod.yml:.docker/service.redis.yml:.docker/env.prod.yml:.docker/env.setup.yml:.docker/build.yml
-        - DOCKER_COMPOSE_VERSION=1.23.2
+        - DOCKER_COMPOSE_VERSION=1.24.1
         - DB_IMAGE=mariadb:10.2
         - FRONTEND_NETWORK=frontend
         - LDAP=0
@@ -50,7 +50,5 @@ jobs:
         - <: *default_env
         - COMPOSE_FILE=docker-compose.yml:.docker/env.prod.yml:.docker/env.setup.yml:.docker/build.yml
         - TYPO3_INSTALL_DB_DRIVER=pdo_sqlite
-      install:
-        - composer require helhum/typo3-console:5.x-dev --no-update
       script:
         - docker-compose exec -u www-data typo3 typo3cms install:setup --no-interaction
