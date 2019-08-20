@@ -5,6 +5,8 @@ RUN update-ca-certificates
 
 ARG LDAP=1
 ARG REDIS=1
+ARG REDIS_VERSION=5.0.2
+
 RUN set -ex; \
     \
     apk add --no-cache --virtual .build-deps \
@@ -17,7 +19,7 @@ RUN set -ex; \
     fi; \
     \
     if [ "$REDIS" = "1" ]; then \
-        pecl install redis-4.3.0; \
+        pecl install redis-$REDIS_VERSION; \
         docker-php-ext-enable redis; \
         rm -rf /tmp/pear; \
     fi; \
