@@ -1,5 +1,5 @@
-language: php
-dist: xenial
+language: minimal
+dist: bionic
 
 addons:
   apt:
