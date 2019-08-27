@@ -3,11 +3,11 @@ FROM composer:latest AS composer
 COPY . /app
 
 # Remove .docker because it cannot be excluded with .dockerignore
-RUN rm -rf /app/.docker
+RUN rm -rf /app/.docker \
+    && mkdir -p /app/config \
+    && mkdir -p /app/var
 
 RUN composer install --no-ansi --no-interaction --no-dev --no-progress --classmap-authoritative --ignore-platform-reqs
-
-RUN mkdir -p /app/config
 
 RUN composer exec typo3cms install:generatepackagestates
 
