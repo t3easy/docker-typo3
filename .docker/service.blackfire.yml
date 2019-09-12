@@ -1,0 +1,17 @@
+version: '3.5'
+services:
+  typo3:
+    networks:
+      typo3-blackfire:
+
+  blackfire:
+    image: blackfire/blackfire
+    environment:
+      BLACKFIRE_SERVER_ID:
+      BLACKFIRE_SERVER_TOKEN:
+    networks:
+      typo3-blackfire:
+    restart: ${RESTART}
+
+networks:
+  typo3-blackfire:
