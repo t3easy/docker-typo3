@@ -12,3 +12,4 @@ services:
       args:
         REDIS: ${REDIS}
         LDAP: ${LDAP}
+        BLACKFIRE_HOST:
