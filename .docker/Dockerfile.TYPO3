@@ -1,4 +1,5 @@
-FROM composer:latest AS composer
+ARG PHP_VERSION=7.2
+FROM t3easy/php:${PHP_VERSION}-development AS builder
 
 COPY . /app
 
@@ -9,53 +10,12 @@ RUN composer install --no-ansi --no-interaction --no-dev --no-progress --classma
 
 RUN composer exec typo3cms install:generatepackagestates
 
-FROM t3easy/php:7.2
+FROM t3easy/php:${PHP_VERSION}-production AS runtime
 
 COPY .docker/ca-certificates /usr/local/share/ca-certificates
 RUN update-ca-certificates
 
-ARG BLACKFIRE_HOST=""
-ARG LDAP=1
-ARG REDIS=1
-ARG REDIS_VERSION=4.3.0
-
-RUN set -ex; \
-    \
-    apk add --no-cache --virtual .build-deps \
-        $PHPIZE_DEPS \
-        openldap-dev \
-    ; \
-    if [ "$LDAP" = "1" ]; then \
-        docker-php-ext-configure ldap; \
-        docker-php-ext-install ldap; \
-    fi; \
-    \
-    if [ "$REDIS" = "1" ]; then \
-        pecl install redis-$REDIS_VERSION; \
-        docker-php-ext-enable redis; \
-        rm -rf /tmp/pear; \
-    fi; \
-    \
-    if [ "$BLACKFIRE_HOST" != "" ]; then \
-        version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;"); \
-        curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/alpine/amd64/$version; \
-        mkdir -p /tmp/blackfire; \
-        tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp/blackfire; \
-        mv /tmp/blackfire/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so; \
-        printf "extension=blackfire.so\nblackfire.agent_socket=tcp://$BLACKFIRE_HOST:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini; \
-        rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz; \
-    fi; \
-    \
-    runDeps="$( \
-        scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
-            | tr ',' '\n' \
-            | sort -u \
-            | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
-    )"; \
-    apk add --virtual .typo3-phpext-rundeps $runDeps; \
-    apk del .build-deps
-
-COPY --chown=82 --from=composer /app .
+COPY --chown=82 --from=builder /app .
 
 ENV PATH "/app/vendor/bin:$PATH"
 ENV TYPO3_CONTEXT Production
