@@ -1,0 +1,18 @@
+version: '3.5'
+services:
+  scheduler:
+    image: ${TYPO3_IMAGE}
+    entrypoint: cron
+    depends_on:
+    - db
+    #- redis
+    #- solr
+    networks:
+      typo3-db:
+      #typo3-redis:
+      #typo3-solr:
+    env_file:
+    - .docker/.env.db
+    environment:
+      MYSQL_HOST: db
+    restart: ${RESTART}
