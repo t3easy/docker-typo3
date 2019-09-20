@@ -1,6 +1,8 @@
 version: '3.5'
 services:
   typo3:
+    depends_on:
+    - redis
     environment:
       REDIS_HOST: redis
     networks:
