@@ -1,3 +1,6 @@
+language: minimal
+dist: bionic
+
 addons:
   apt:
     packages:
@@ -8,16 +11,20 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
+  - docker --version
+  - docker-compose --version
+  - docker network create frontend
 
 jobs:
   include:
-    - stage: Test
+    - &build_and_install
+      stage: Test
       services:
         - docker
       sudo: required
-      env:
-        - COMPOSE_FILE=docker-compose.yml:.docker/service.db.yml:.docker/service.redis.yml:.docker/env.prod.yml:.docker/env.setup.yml:.docker/build.yml
-        - DOCKER_COMPOSE_VERSION=1.23.2
+      env: &default_env
+        - COMPOSE_FILE=docker-compose.yml:.docker/service.db.yml:.docker/service.db.prod.yml:.docker/service.redis.yml:.docker/env.prod.yml:.docker/env.setup.yml:.docker/build.yml
+        - DOCKER_COMPOSE_VERSION=1.24.1
         - DB_IMAGE=mariadb:10.1
         - FRONTEND_NETWORK=frontend
         - LDAP=0
@@ -34,9 +41,6 @@ jobs:
         - TYPO3_IMAGE=t3easy/typo3:travis-test-typo3
         - WEB_IMAGE=t3easy/typo3:travis-test-typo3
       before_script:
-        - docker --version
-        - docker-compose --version
-        - docker network create frontend
         - docker-compose up -d --build
         - sleep 10
       script:
