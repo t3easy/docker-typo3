@@ -1,6 +1,7 @@
 version: '3.5'
 services:
   web:
+    image: ${WEB_IMAGE}
     networks:
       frontend:
       web-typo3:
@@ -15,6 +16,7 @@ services:
     restart: ${RESTART}
 
   typo3:
+    image: ${TYPO3_IMAGE}
     networks:
       web-typo3:
     environment:
