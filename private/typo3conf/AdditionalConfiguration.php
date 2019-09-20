@@ -48,6 +48,24 @@ if (($redisHost = getenv('REDIS_HOST')) && extension_loaded('redis')) {
             'defaultLifetime' => $defaultLifetime
         ];
     }
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['session'] = [
+        'BE' => [
+            'backend' => \TYPO3\CMS\Core\Session\Backend\RedisSessionBackend::class,
+            'options' => [
+                'hostname' => $redisHost,
+                'database' => $counter++,
+                'port' => $redisPort !== false ? (int)$redisPort : 6379,
+            ],
+        ],
+        'FE' => [
+            'backend' => \TYPO3\CMS\Core\Session\Backend\RedisSessionBackend::class,
+            'options' => [
+                'hostname' => $redisHost,
+                'database' => $counter++,
+                'port' => $redisPort !== false ? (int)$redisPort : 6379,
+            ],
+        ],
+    ];
 } elseif (($isApcuLoaded = extension_loaded('apcu') || extension_loaded('apc')) && ini_get('apc.enabled')) {
     foreach ($caches as $cache => $defaultLifetime) {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['backend'] =
