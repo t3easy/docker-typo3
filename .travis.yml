@@ -39,7 +39,7 @@ jobs:
         - TYPO3_INSTALL_WEB_SERVER_CONFIG=none
         - VHOST=typo3.localhost
         - TYPO3_IMAGE=t3easy/typo3:travis-test-typo3
-        - WEB_IMAGE=t3easy/typo3:travis-test-typo3
+        - WEB_IMAGE=t3easy/typo3:travis-test-web
       before_script:
         - docker-compose up -d --build
         - sleep 10
