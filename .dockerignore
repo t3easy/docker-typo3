@@ -4,6 +4,7 @@ nbproject
 /.docker/*
 !/.docker/ca-certificates
 !/.docker/web
+!/.docker/cron.sh
 /.dockerignore
 /.env*
 /.git*
