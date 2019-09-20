@@ -12,6 +12,10 @@ RUN composer exec typo3cms install:generatepackagestates
 
 FROM t3easy/php:${PHP_VERSION}-production AS runtime
 
+COPY cron.sh /usr/local/bin/cron
+RUN rm /var/spool/cron/crontabs/root \
+ && echo '*/15 * * * * php -f /app/vendor/bin/typo3 scheduler:run' > /var/spool/cron/crontabs/www-data
+
 COPY .docker/ca-certificates /usr/local/share/ca-certificates
 RUN update-ca-certificates
 
