@@ -9,7 +9,3 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile.TYPO3
-      args:
-        REDIS: ${REDIS}
-        LDAP: ${LDAP}
-        BLACKFIRE_HOST:

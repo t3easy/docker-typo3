@@ -27,9 +27,7 @@ jobs:
         - DOCKER_COMPOSE_VERSION=1.24.1
         - DB_IMAGE=mariadb:10.2
         - FRONTEND_NETWORK=frontend
-        - LDAP=0
         - MYSQL_ROOT_PASSWORD=mySecurePassword
-        - REDIS=1
         - RESTART=no
         - TRUSTED_HOSTS_PATTERN=.*
         - TYPO3_INSTALL_ADMIN_USER=travis
