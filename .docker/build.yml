@@ -3,9 +3,13 @@ services:
   web:
     build:
       context: .
-      dockerfile: .docker/Dockerfile.Web
+      dockerfile: .docker/Dockerfile.Prod
+      args:
+        TARGET_SERVICE: web
 
   typo3:
     build:
       context: .
-      dockerfile: .docker/Dockerfile.TYPO3
+      dockerfile: .docker/Dockerfile.Prod
+      args:
+        TARGET_SERVICE: php

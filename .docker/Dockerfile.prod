@@ -1,4 +1,5 @@
 ARG PHP_VERSION=7.2
+ARG TARGET_SERVICE=php
 FROM t3easy/php:${PHP_VERSION}-development AS builder
 
 COPY . /app
@@ -12,7 +13,7 @@ RUN composer install --no-ansi --no-interaction --no-dev --no-progress --classma
 
 RUN composer exec typo3cms install:generatepackagestates
 
-FROM t3easy/php:${PHP_VERSION}-production AS runtime
+FROM t3easy/php:${PHP_VERSION}-production AS php
 
 COPY .docker/cron.sh /usr/local/bin/cron
 RUN rm /var/spool/cron/crontabs/root \
@@ -25,3 +26,14 @@ COPY --chown=82 --from=builder /app .
 
 ENV PATH "/app/vendor/bin:$PATH"
 ENV TYPO3_CONTEXT Production
+
+FROM nginx:alpine as web
+
+COPY --chown=82 --from=builder /app /app
+
+COPY .docker/web/typo3.conf /etc/nginx/
+COPY .docker/web/default.conf /etc/nginx/conf.d/
+
+WORKDIR /app
+
+FROM ${TARGET_SERVICE} as runtime
