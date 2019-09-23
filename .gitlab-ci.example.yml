@@ -28,8 +28,6 @@ build:
   variables:
     DOCKER_HOST: "tcp://docker-host:2376"
     COMPOSE_FILE: ".docker/build.yml:.docker/env.gitlab.yml"
-    REDIS: "1"
-    LDAP: "0"
   script:
   - docker-compose build --pull
   - docker-compose push
