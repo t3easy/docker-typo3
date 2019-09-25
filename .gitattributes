@@ -1,2 +1,3 @@
+/.docker/hooks export-ignore
 /.gitattributes export-ignore
 /.travis.yml export-ignore

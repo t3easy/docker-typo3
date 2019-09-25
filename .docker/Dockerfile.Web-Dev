@@ -1,6 +1,0 @@
-FROM nginx:alpine
-
-COPY .docker/web/typo3.conf /etc/nginx/
-COPY .docker/web/default.conf /etc/nginx/conf.d/
-
-WORKDIR /app
