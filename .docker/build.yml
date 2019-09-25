@@ -3,13 +3,15 @@ services:
   web:
     build:
       context: .
-      dockerfile: .docker/Dockerfile.prod
+      dockerfile: .docker/Dockerfile
       args:
+        TARGET_ENVIRONMENT: production
         TARGET_SERVICE: web
 
   typo3:
     build:
       context: .
-      dockerfile: .docker/Dockerfile.prod
+      dockerfile: .docker/Dockerfile
       args:
+        TARGET_ENVIRONMENT: production
         TARGET_SERVICE: php

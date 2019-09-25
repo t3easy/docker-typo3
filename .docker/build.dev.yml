@@ -2,13 +2,15 @@ version: '3.5'
 services:
   web:
     build:
-      dockerfile: .docker/Dockerfile.dev
+      dockerfile: .docker/Dockerfile
       args:
+        TARGET_ENVIRONMENT: development
         TARGET_SERVICE: web
 
   typo3:
     build:
-      dockerfile: .docker/Dockerfile.dev
+      dockerfile: .docker/Dockerfile
       args:
+        TARGET_ENVIRONMENT: development
         TARGET_SERVICE: php
 
