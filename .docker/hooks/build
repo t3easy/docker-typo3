@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+set
+pwd
+ls -la
+echo $DOCKERFILE_PATH
+
 TYPO3_MAJOR_VERSION=9
 
 # Build with default args in Dockerfile
