@@ -19,7 +19,6 @@ ENV PATH "/app/vendor/bin:$PATH"
 FROM php-base as php-production
 COPY --chown=82 --from=builder /app .
 ENV TYPO3_CONTEXT Production
-RUN typo3cms install:generatepackagestates
 
 FROM php-base as php-development
 ENV TYPO3_CONTEXT Development
