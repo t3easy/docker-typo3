@@ -9,35 +9,44 @@
         }
     ],
     "require": {
-        "helhum/typo3-console": "^5.7",
-        "helhum/typo3-secure-web": "^0.2.8",
-        "typo3/cms-about": "^9.5",
-        "typo3/cms-adminpanel": "^9.5",
-        "typo3/cms-belog": "^9.5",
-        "typo3/cms-beuser": "^9.5",
-        "typo3/cms-felogin": "^9.5",
-        "typo3/cms-fluid-styled-content": "^9.5",
-        "typo3/cms-form": "^9.5",
-        "typo3/cms-impexp": "^9.5",
-        "typo3/cms-info": "^9.5",
-        "typo3/cms-redirects": "^9.5",
-        "typo3/cms-reports": "^9.5",
-        "typo3/cms-rte-ckeditor": "^9.5",
-        "typo3/cms-seo": "^9.5",
-        "typo3/cms-setup": "^9.5",
-        "typo3/cms-sys-note": "^9.5",
-        "typo3/cms-t3editor": "^9.5",
-        "typo3/cms-tstemplate": "^9.5",
-        "typo3/cms-viewpage": "^9.5",
-        "typo3/minimal": "^9.5"
+        "helhum/typo3-console": "^6.0.0",
+        "helhum/typo3-secure-web": "^0.2.9",
+        "typo3/cms-about": "^10.4",
+        "typo3/cms-backend": "^10.4",
+        "typo3/cms-belog": "^10.4",
+        "typo3/cms-beuser": "^10.4",
+        "typo3/cms-core": "^10.4",
+        "typo3/cms-dashboard": "^10.4",
+        "typo3/cms-extbase": "^10.4",
+        "typo3/cms-extensionmanager": "^10.4",
+        "typo3/cms-felogin": "^10.4",
+        "typo3/cms-filelist": "^10.4",
+        "typo3/cms-fluid": "^10.4",
+        "typo3/cms-fluid-styled-content": "^10.4",
+        "typo3/cms-form": "^10.4",
+        "typo3/cms-frontend": "^10.4",
+        "typo3/cms-impexp": "^10.4",
+        "typo3/cms-info": "^10.4",
+        "typo3/cms-install": "^10.4",
+        "typo3/cms-recordlist": "^10.4",
+        "typo3/cms-rte-ckeditor": "^10.4",
+        "typo3/cms-seo": "^10.4",
+        "typo3/cms-setup": "^10.4",
+        "typo3/cms-sys-note": "^10.4",
+        "typo3/cms-t3editor": "^10.4",
+        "typo3/cms-tstemplate": "^10.4",
+        "typo3/cms-viewpage": "^10.4"
     },
     "require-dev": {
-        "typo3/cms-lowlevel": "^9.5"
+        "typo3/cms-adminpanel": "^10.4",
+        "typo3/cms-lowlevel": "^10.4",
+        "typo3/cms-reports": "^10.4"
     },
     "config": {
         "platform": {
             "php": "7.2"
-        }
+        },
+        "sort-packages": true
     },
     "extra": {
         "branch-alias": {
