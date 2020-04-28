@@ -9,6 +9,7 @@ nbproject
 /.env*
 /.git*
 /.surf
+/.travis.yml
 /docker-compose.yml
 /public/*
 !/public/.htaccess
