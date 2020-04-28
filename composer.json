@@ -49,9 +49,6 @@
         "sort-packages": true
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "10.x-dev"
-        },
         "typo3/cms": {
             "root-dir": "private",
             "web-dir": "public"
