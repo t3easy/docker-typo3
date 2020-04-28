@@ -119,5 +119,5 @@ where `32770` is the port on the local docker host to connect to.
 To run a command inside the TYPO3 PHP Container use `docker-compose`:
 E.g. flush the cache
 ```
-docker-compose exec -u www-data typo3 typo3cms cache:flush --force
-``
+docker-compose exec -u www-data typo3 typo3cms cache:flush
+```
