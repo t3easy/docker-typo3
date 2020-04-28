@@ -1,6 +1,6 @@
 <?php
 
-$context = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
+$context = \TYPO3\CMS\Core\Core\Environment::getContext();
 $isDocker = file_exists('/.dockerenv');
 
 if ($trustedHostsPattern = getenv('TRUSTED_HOSTS_PATTERN')) {
