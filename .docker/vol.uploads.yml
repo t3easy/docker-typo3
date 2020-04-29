@@ -1,0 +1,12 @@
+version: '3.5'
+services:
+  web:
+    volumes:
+    - uploads:/app/private/uploads
+
+  typo3:
+    volumes:
+    - uploads:/app/private/uploads
+
+volumes:
+  uploads:
