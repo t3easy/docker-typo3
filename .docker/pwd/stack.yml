@@ -1,0 +1,77 @@
+networks:
+  frontend: {}
+  typo3-db: {}
+  typo3-redis: {}
+  web-typo3: {}
+services:
+  db:
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: typo3
+      MYSQL_PASSWORD: typo3
+      MYSQL_ROOT_PASSWORD: typo3
+      MYSQL_USER: typo3
+    image: mariadb:10.2
+    networks:
+      typo3-db: {}
+    restart: "no"
+    volumes:
+    - db:/var/lib/mysql:rw
+  redis:
+    image: redis
+    networks:
+      typo3-redis: {}
+    restart: "no"
+  typo3:
+    command:
+    - /bin/sh
+    - -c
+    - '[ -f /app/private/typo3conf/LocalConfiguration.php ] || touch /app/private/FIRST_INSTALL
+      && php-fpm'
+    depends_on:
+    - db
+    - redis
+    environment:
+      MYSQL_DATABASE: typo3
+      MYSQL_HOST: db
+      MYSQL_PASSWORD: typo3
+      MYSQL_USER: typo3
+      REDIS_HOST: redis
+      TRUSTED_HOSTS_PATTERN: .*\.play-with-docker\.com
+    image: t3easy/typo3:typo3-10
+    networks:
+      typo3-db: {}
+      typo3-redis: {}
+      web-typo3: {}
+    restart: "no"
+    volumes:
+    - fileadmin:/app/private/fileadmin:rw
+    - typo3temp:/app/private/typo3temp:rw
+    - var:/app/var:rw
+  web:
+    depends_on:
+    - typo3
+    image: t3easy/typo3:web-10
+    labels:
+      traefik.docker.network: frontend
+      traefik.enable: "true"
+      traefik.frontend.rule: Host:www.domain.tld
+    networks:
+      frontend: {}
+      web-typo3:
+        aliases:
+        - www.domain.tld
+    ports:
+    - published: 80
+      target: 80
+    restart: "no"
+    volumes:
+    - fileadmin:/app/private/fileadmin:rw
+    - typo3temp:/app/private/typo3temp:rw
+version: '3.5'
+volumes:
+  db: {}
+  fileadmin: {}
+  typo3temp: {}
+  var: {}
+
