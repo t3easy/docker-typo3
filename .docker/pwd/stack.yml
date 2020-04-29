@@ -66,8 +66,14 @@ services:
       target: 80
     restart: "no"
     volumes:
-    - fileadmin:/app/private/fileadmin:rw
-    - typo3temp:/app/private/typo3temp:rw
+    - read_only: true
+      source: fileadmin
+      target: /app/private/fileadmin
+      type: volume
+    - read_only: true
+      source: typo3temp
+      target: /app/private/typo3temp
+      type: volume
 version: '3.5'
 volumes:
   db: {}
