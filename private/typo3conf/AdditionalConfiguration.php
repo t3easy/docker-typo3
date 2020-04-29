@@ -27,13 +27,12 @@ if (($smtpServer = getenv('SMTP_SERVER')) && ($smtpPort = getenv('SMTP_PORT'))) 
 
 $oneDay = 86400;
 $caches = [
-    'cache_hash' => 1 * $oneDay,
-    'cache_imagesizes' => 0,
-    'cache_pages' => 1 * $oneDay,
-    'cache_pagesection' => 1 * $oneDay,
-    'cache_rootline' => 1 * $oneDay,
-    'extbase_reflection' => 0,
-    'extbase_datamapfactory_datamap' => 0
+    'extbase' => 0,
+    'hash' => 1 * $oneDay,
+    'imagesizes' => 0,
+    'pages' => 1 * $oneDay,
+    'pagesection' => 1 * $oneDay,
+    'rootline' => 1 * $oneDay
 ];
 
 if (($redisHost = getenv('REDIS_HOST')) && extension_loaded('redis')) {
