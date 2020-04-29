@@ -70,10 +70,14 @@ services:
       source: fileadmin
       target: /app/private/fileadmin
       type: volume
+      volume:
+        nocopy: true
     - read_only: true
       source: typo3temp
       target: /app/private/typo3temp
       type: volume
+      volume:
+        nocopy: true
 version: '3.5'
 volumes:
   db: {}
