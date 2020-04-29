@@ -121,3 +121,8 @@ E.g. flush the cache
 ```
 docker-compose exec -u www-data typo3 typo3cms cache:flush
 ```
+
+## Play with docker
+Start a demo stack:
+*  [TYPO3 10](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/t3easy/docker-typo3/10.x/.docker/pwd/stack.yml)
+*  [TYPO3 9](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/t3easy/docker-typo3/9.x/.docker/pwd/stack.yml)
