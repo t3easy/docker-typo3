@@ -8,7 +8,7 @@
     or include `.docker/env.direct.yml` and set `WEB_PORT`.
 
 ### Start a new project
-1.  `composer create-project t3easy/typo3-bootcamp=^9 awesome-project.tld`  
+1.  `composer create-project "t3easy/typo3-bootcamp:^10" awesome-project.tld`  
     (Or clone the project with git and checkout the desired branch)
 1.  Change to awesome-project.tld / open it in you favorite IDE
 1.  Rename `.env.dev` to `.env` and adjust it to your needs, see below and comments in the file for more information
