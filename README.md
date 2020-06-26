@@ -5,7 +5,7 @@
 1.  [Docker Compose](https://docs.docker.com/compose/install/) (included in Docker4Mac)
 1.  composer
 1.  A Traefik reverse proxy, e.g. [docker-frontend](https://github.com/t3easy/docker-frontend)
-    or add an additional docker compose config with port mappings.
+    or include `.docker/env.direct.yml` and set `WEB_PORT`.
 
 ### Start a new project
 1.  `composer create-project t3easy/typo3-bootcamp=^9 awesome-project.tld`  
@@ -89,6 +89,9 @@ See [Access the database during development via tcp](#access-the-database-during
 
 ### REDIS and LDAP
 Build the TYPO3 image with that PHP extensions.
+
+### WEB_PORT
+The port the web container expose. Only if you use `.docker/env.direct.yml`.
 
 ## Build
 To build a productive environment use `docker-compose -f .docker/build.yml` from the root with an prepared `.env`
