@@ -4,7 +4,6 @@ on:
   push:
 
 env:
-  FRONTEND_NETWORK: frontend
   RESTART: no
   TRUSTED_HOSTS_PATTERN: .*
   TYPO3_INSTALL_ADMIN_USER: travis

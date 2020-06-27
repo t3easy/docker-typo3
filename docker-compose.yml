@@ -27,4 +27,4 @@ networks:
   web-typo3:
   frontend:
     external: true
-    name: ${FRONTEND_NETWORK}
+    name: ${FRONTEND_NETWORK:-frontend}
