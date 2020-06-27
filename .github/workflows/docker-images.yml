@@ -20,9 +20,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      COMPOSE_FILE: >-
-        docker-compose.yml:
-        .docker/build.yml
+      COMPOSE_FILE: "docker-compose.yml:\
+        .docker/build.yml"
     steps:
     - uses: actions/checkout@v2
     - name: Build images
@@ -35,14 +34,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     env:
-      COMPOSE_FILE: >-
-        docker-compose.yml:
-        .docker/service.db.yml:
-        .docker/service.db.prod.yml:
-        .docker/service.redis.yml:
-        .docker/env.prod.yml:
-        .docker/env.setup.yml:
-        .docker/env.direct.yml
+      COMPOSE_FILE: "docker-compose.yml:\
+        .docker/service.db.yml:\
+        .docker/service.db.prod.yml:\
+        .docker/service.redis.yml:\
+        .docker/env.prod.yml:\
+        .docker/env.setup.yml:\
+        .docker/env.direct.yml"
       DB_IMAGE: mariadb:10.2
       MYSQL_ROOT_PASSWORD: mySecurePassword
     steps:
@@ -53,12 +51,12 @@ jobs:
     - run: docker-compose down -v
   test-sqlite:
     runs-on: ubuntu-latest
+    needs: build
     env:
-      COMPOSE_FILE: >-
-        docker-compose.yml:
-        .docker/env.prod.yml:
-        .docker/env.setup.yml:
-        .docker/env.direct.yml
+      COMPOSE_FILE: "docker-compose.yml:\
+        .docker/env.prod.yml:\
+        .docker/env.setup.yml:\
+        .docker/env.direct.yml"
       TYPO3_INSTALL_DB_DRIVER: pdo_sqlite
     steps:
     - uses: actions/checkout@v2
