@@ -44,10 +44,16 @@ jobs:
       MYSQL_ROOT_PASSWORD: mySecurePassword
     steps:
     - uses: actions/checkout@v2
-    - run: docker-compose pull --quiet
-    - run: docker-compose up -d
-    - run: docker-compose exec -u www-data typo3 typo3cms install:setup --no-interaction
-    - run: docker-compose down -v
+    - name: Log into registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+    - name: Pull the images
+      run: docker-compose pull --quiet
+    - name: Start the stack
+      run: docker-compose up -d
+    - name: Setup TYPO3
+      run: docker-compose exec -u www-data typo3 typo3cms install:setup --no-interaction
+    - name: Stop containers and remove the stack
+      run: docker-compose down -v
   test-sqlite:
     runs-on: ubuntu-latest
     needs: build
@@ -59,7 +65,13 @@ jobs:
       TYPO3_INSTALL_DB_DRIVER: pdo_sqlite
     steps:
     - uses: actions/checkout@v2
-    - run: docker-compose pull --quiet
-    - run: docker-compose up -d
-    - run: docker-compose exec -u www-data typo3 typo3cms install:setup --no-interaction
-    - run: docker-compose down -v
+    - name: Log into registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+    - name: Pull the images
+      run: docker-compose pull --quiet
+    - name: Start the stack
+      run: docker-compose up -d
+    - name: Setup TYPO3
+      run: docker-compose exec -u www-data typo3 typo3cms install:setup --no-interaction
+    - name: Stop containers and remove the stack
+      run: docker-compose down -v
