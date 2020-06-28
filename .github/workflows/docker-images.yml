@@ -51,7 +51,7 @@ jobs:
     - name: Start the stack
       run: docker-compose up -d
     - name: Setup TYPO3
-      run: docker-compose exec -u www-data typo3 typo3cms install:setup --no-interaction
+      run: docker-compose exec -T -u www-data typo3 typo3cms install:setup --no-interaction
     - name: Stop containers and remove the stack
       run: docker-compose down -v
   test-sqlite:
@@ -72,6 +72,6 @@ jobs:
     - name: Start the stack
       run: docker-compose up -d
     - name: Setup TYPO3
-      run: docker-compose exec -u www-data typo3 typo3cms install:setup --no-interaction
+      run: docker-compose exec -T -u www-data typo3 typo3cms install:setup --no-interaction
     - name: Stop containers and remove the stack
       run: docker-compose down -v
