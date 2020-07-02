@@ -15,7 +15,15 @@ $mysql = [
 ];
 if ($mysql['dbname'] && $mysql['host'] && $mysql['password'] && $mysql['user']) {
     $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default'] = array_merge(
-        ['charset' => 'utf8', 'driver' => 'mysqli', 'port' => 3306, 'unix_socket' => ''],
+        [
+            'charset' => 'utf8mb4',
+            'driver' => 'mysqli',
+            'port' => 3306,
+            'tableoptions' => [
+                'charset' => 'utf8mb4',
+                'collate' => 'utf8mb4_unicode_ci',
+            ],
+        ],
         $mysql
     );
 }
