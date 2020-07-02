@@ -8,24 +8,20 @@ if ($trustedHostsPattern = getenv('TRUSTED_HOSTS_PATTERN')) {
 }
 
 $mysql = [
+    'charset' => 'utf8mb4',
     'dbname' => getenv('MYSQL_DATABASE'),
+    'driver' => 'mysqli',
     'host' => getenv('MYSQL_HOST'),
     'password' => getenv('MYSQL_PASSWORD'),
-    'user' => getenv('MYSQL_USER')
+    'port' => 3306,
+    'tableoptions' => [
+        'charset' => 'utf8mb4',
+        'collate' => 'utf8mb4_unicode_ci',
+    ],
+    'user' => getenv('MYSQL_USER'),
 ];
 if ($mysql['dbname'] && $mysql['host'] && $mysql['password'] && $mysql['user']) {
-    $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default'] = array_merge(
-        [
-            'charset' => 'utf8mb4',
-            'driver' => 'mysqli',
-            'port' => 3306,
-            'tableoptions' => [
-                'charset' => 'utf8mb4',
-                'collate' => 'utf8mb4_unicode_ci',
-            ],
-        ],
-        $mysql
-    );
+    $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default'] = $mysql;
 }
 
 if (($smtpServer = getenv('SMTP_SERVER')) && ($smtpPort = getenv('SMTP_PORT'))) {
