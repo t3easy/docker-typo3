@@ -12,7 +12,7 @@ services:
       adminer-db:
       frontend:
     labels:
-      traefik.docker.network: ${FRONTEND_NETWORK}
+      traefik.docker.network: ${FRONTEND_NETWORK:-frontend}
       traefik.enable: "true"
       traefik.frontend.rule: Host:adminer.${VHOST}
       traefik.port: '8080'

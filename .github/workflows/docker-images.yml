@@ -1,0 +1,77 @@
+name: Test docker images
+
+on:
+  push:
+
+env:
+  RESTART: no
+  TRUSTED_HOSTS_PATTERN: .*
+  TYPO3_INSTALL_ADMIN_USER: travis
+  TYPO3_INSTALL_ADMIN_PASSWORD: mySecurePassword
+  TYPO3_INSTALL_SITE_NAME: Test
+  TYPO3_INSTALL_SITE_SETUP_TYPE: site
+  TYPO3_INSTALL_WEB_SERVER_CONFIG: none
+  VHOST: typo3.localhost
+  TYPO3_IMAGE: docker.pkg.github.com/${{ github.repository }}/typo3:9.x-test
+  WEB_IMAGE: docker.pkg.github.com/${{ github.repository }}/web:9.x-test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      COMPOSE_FILE: "docker-compose.yml:\
+        .docker/build.yml"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build images
+      run: docker-compose build --pull
+    - name: Log into registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+    - name: Push images
+      run: docker-compose push
+  test-mariadb:
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      COMPOSE_FILE: "docker-compose.yml:\
+        .docker/service.db.yml:\
+        .docker/service.db.prod.yml:\
+        .docker/service.redis.yml:\
+        .docker/env.prod.yml:\
+        .docker/env.setup.yml:\
+        .docker/env.direct.yml"
+      DB_IMAGE: mariadb:10.2
+      MYSQL_ROOT_PASSWORD: mySecurePassword
+    steps:
+    - uses: actions/checkout@v2
+    - name: Log into registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+    - name: Pull the images
+      run: docker-compose pull --quiet
+    - name: Start the stack
+      run: docker-compose up -d
+    - name: Setup TYPO3
+      run: docker-compose exec -T -u www-data typo3 typo3cms install:setup --no-interaction
+    - name: Stop containers and remove the stack
+      run: docker-compose down -v
+  test-sqlite:
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      COMPOSE_FILE: "docker-compose.yml:\
+        .docker/env.prod.yml:\
+        .docker/env.setup.yml:\
+        .docker/env.direct.yml"
+      TYPO3_INSTALL_DB_DRIVER: pdo_sqlite
+    steps:
+    - uses: actions/checkout@v2
+    - name: Log into registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+    - name: Pull the images
+      run: docker-compose pull --quiet
+    - name: Start the stack
+      run: docker-compose up -d
+    - name: Setup TYPO3
+      run: docker-compose exec -T -u www-data typo3 typo3cms install:setup --no-interaction
+    - name: Stop containers and remove the stack
+      run: docker-compose down -v

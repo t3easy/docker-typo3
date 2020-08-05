@@ -10,7 +10,7 @@ services:
     depends_on:
     - typo3
     labels:
-      traefik.docker.network: ${FRONTEND_NETWORK}
+      traefik.docker.network: ${FRONTEND_NETWORK:-frontend}
       traefik.enable: "true"
       traefik.frontend.rule: Host:${VHOST}
     restart: ${RESTART}
@@ -27,4 +27,4 @@ networks:
   web-typo3:
   frontend:
     external: true
-    name: ${FRONTEND_NETWORK}
+    name: ${FRONTEND_NETWORK:-frontend}
