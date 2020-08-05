@@ -9,7 +9,7 @@ services:
       typo3-redis:
 
   redis:
-    image: redis
+    image: redis:alpine
     networks:
       typo3-redis:
     restart: ${RESTART}
