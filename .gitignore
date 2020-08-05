@@ -1,4 +1,5 @@
-/.docker/db
+/.docker/db/*
+!/.docker/db/.gitkeep
 
 .DS_Store
 .idea

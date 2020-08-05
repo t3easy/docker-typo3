@@ -125,6 +125,25 @@ E.g. flush the cache
 docker-compose exec -u www-data typo3 typo3cms cache:flush
 ```
 
+## Import/export the database
+
+### Export database
+```shell
+docker-compose exec -T db sh -c 'exec mysqldump --opt --single-transaction -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE"' > dump.sql
+```
+### Import a sql dump
+```shell
+docker-compose exec -T db sh -c 'exec mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE"' < dump.sql
+```
+
+### Import directly from remote
+```shell
+ssh user@server 'TYPO3_CONTEXT="Production" /path/to/typo3cms database:export' | docker-compose exec -T db sh -c 'exec mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE"'
+```
+
+### Why can't you use typo3-console to import/export the database to/from the docker environment
+The TYPO3 PHP image does not include mysql or mysqldump binary which are required by typo3-console.
+
 ## Play with docker
 Start a demo stack:
 *  [TYPO3 10](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/t3easy/docker-typo3/10.x/.docker/pwd/stack.yml)

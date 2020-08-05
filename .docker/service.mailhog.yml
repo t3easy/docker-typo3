@@ -13,7 +13,7 @@ services:
       typo3-mailhog:
       frontend:
     labels:
-      traefik.docker.network: ${FRONTEND_NETWORK}
+      traefik.docker.network: ${FRONTEND_NETWORK:-frontend}
       traefik.enable: "true"
       traefik.frontend.rule: Host:mail.${VHOST}
       traefik.port: '8025'
