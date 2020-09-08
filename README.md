@@ -147,4 +147,5 @@ The TYPO3 PHP image does not include mysql or mysqldump binary which are require
 ## Play with docker
 Start a demo stack:
 *  [TYPO3 10](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/t3easy/docker-typo3/10.x/.docker/pwd/stack.yml)
+*  [TYPO3 10 with stack from master](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/t3easy/docker-typo3/master/.docker/pwd/stack.yml)
 *  [TYPO3 9](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/t3easy/docker-typo3/9.x/.docker/pwd/stack.yml)
