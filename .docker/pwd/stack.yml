@@ -121,7 +121,7 @@ services:
       type: volume
       volume:
         nocopy: true
-version: '3'
+version: '3.5'
 volumes:
   db: {}
   fileadmin: {}
