@@ -37,7 +37,11 @@ deploy:live:
   stage: deploy
   variables:
     DOCKER_HOST: "tcp://docker-host:2376"
-    COMPOSE_FILE: "docker-compose.yml:.docker/service.redis.yml:.docker/env.prod.yml:.docker/env.gitlab.yml"
+    COMPOSE_FILE: "docker-compose.yml:\
+      .docker/service.redis-cache.yml:\
+      .docker/service.redis-session.yml:\
+      .docker/env.prod.yml:\
+      .docker/env.gitlab.yml"
     VHOST: "www.domain.tld"
     FRONTEND_NETWORK: "frontend"
     DOCKER_CACHE_CONFIG: ""

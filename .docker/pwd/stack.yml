@@ -17,7 +17,42 @@ services:
     restart: "no"
     volumes:
     - db:/var/lib/mysql:rw
-  redis:
+  redis-cache-extbase:
+    image: redis:alpine
+    networks:
+      typo3-redis: {}
+    restart: "no"
+  redis-cache-hash:
+    image: redis:alpine
+    networks:
+      typo3-redis: {}
+    restart: "no"
+  redis-cache-imagesizes:
+    image: redis:alpine
+    networks:
+      typo3-redis: {}
+    restart: "no"
+  redis-cache-pages:
+    image: redis:alpine
+    networks:
+      typo3-redis: {}
+    restart: "no"
+  redis-cache-pagesection:
+    image: redis:alpine
+    networks:
+      typo3-redis: {}
+    restart: "no"
+  redis-cache-rootline:
+    image: redis:alpine
+    networks:
+      typo3-redis: {}
+    restart: "no"
+  redis-session-be:
+    image: redis:alpine
+    networks:
+      typo3-redis: {}
+    restart: "no"
+  redis-session-fe:
     image: redis:alpine
     networks:
       typo3-redis: {}
@@ -30,13 +65,21 @@ services:
       && php-fpm'
     depends_on:
     - db
-    - redis
+    - redis-cache-extbase
+    - redis-cache-hash
+    - redis-cache-imagesizes
+    - redis-cache-pages
+    - redis-cache-pagesection
+    - redis-cache-rootline
+    - redis-session-be
+    - redis-session-fe
     environment:
       MYSQL_DATABASE: typo3
       MYSQL_HOST: db
       MYSQL_PASSWORD: typo3
       MYSQL_USER: typo3
-      REDIS_HOST: redis
+      REDIS_CACHE_HOST_PREFIX: redis-cache-
+      REDIS_SESSION_HOST_PREFIX: redis-session-
       TRUSTED_HOSTS_PATTERN: .*\.play-with-docker\.com
     image: t3easy/typo3:typo3-10
     networks:
@@ -78,7 +121,7 @@ services:
       type: volume
       volume:
         nocopy: true
-version: '3.5'
+version: '3'
 volumes:
   db: {}
   fileadmin: {}

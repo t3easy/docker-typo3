@@ -36,7 +36,8 @@ jobs:
       COMPOSE_FILE: "docker-compose.yml:\
         .docker/service.db.yml:\
         .docker/service.db.prod.yml:\
-        .docker/service.redis.yml:\
+        .docker/service.redis-cache.yml:\
+        .docker/service.redis-session.yml:\
         .docker/env.prod.yml:\
         .docker/env.setup.yml:\
         .docker/env.direct.yml"

@@ -39,44 +39,47 @@ $caches = [
     'rootline' => 1 * $oneDay
 ];
 
-if (($redisHost = getenv('REDIS_HOST')) && extension_loaded('redis')) {
-    $redisPort = getenv('REDIS_PORT');
-    $counter = 3;
+$redisDatabase = 3;
+$redisPort = 6379;
+
+if ($redisCacheHostPrefix = getenv('REDIS_CACHE_HOST_PREFIX')) {
     foreach ($caches as $cache => $defaultLifetime) {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['backend'] = \TYPO3\CMS\Core\Cache\Backend\RedisBackend::class;
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['options'] = [
-            'database' => $counter++,
-            'hostname' => $redisHost,
-            'port' => $redisPort !== false ? (int)$redisPort : 6379,
+            'database' => $redisDatabase,
+            'hostname' => $redisCacheHostPrefix . $cache,
+            'port' => $redisPort,
             'defaultLifetime' => $defaultLifetime
         ];
     }
+} else {
+    foreach ($caches as $cache => $defaultLifetime) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['backend'] = \TYPO3\CMS\Core\Cache\Backend\ApcuBackend::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['options'] = [
+            'defaultLifetime' => $defaultLifetime,
+        ];
+    }
+}
+
+if ($redisSessionHostPrefix = getenv('REDIS_SESSION_HOST_PREFIX')) {
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['session'] = [
         'BE' => [
             'backend' => \TYPO3\CMS\Core\Session\Backend\RedisSessionBackend::class,
             'options' => [
-                'hostname' => $redisHost,
-                'database' => $counter++,
-                'port' => $redisPort !== false ? (int)$redisPort : 6379,
+                'hostname' => $redisSessionHostPrefix . 'be',
+                'database' => $redisDatabase,
+                'port' => $redisPort,
             ],
         ],
         'FE' => [
             'backend' => \TYPO3\CMS\Core\Session\Backend\RedisSessionBackend::class,
             'options' => [
-                'hostname' => $redisHost,
-                'database' => $counter++,
-                'port' => $redisPort !== false ? (int)$redisPort : 6379,
+                'hostname' => $redisSessionHostPrefix . 'fe',
+                'database' => $redisDatabase,
+                'port' => $redisPort,
             ],
         ],
     ];
-} elseif (($isApcuLoaded = extension_loaded('apcu') || extension_loaded('apc')) && ini_get('apc.enabled')) {
-    foreach ($caches as $cache => $defaultLifetime) {
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['backend'] =
-            $isApcuLoaded ? \TYPO3\CMS\Core\Cache\Backend\ApcuBackend::class : \TYPO3\CMS\Core\Cache\Backend\ApcBackend::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['options'] = [
-            'defaultLifetime' => $defaultLifetime,
-        ];
-    }
 }
 
 if ($isDocker) {
