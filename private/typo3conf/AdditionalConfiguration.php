@@ -47,7 +47,7 @@ if ($redisCacheHostPrefix = getenv('REDIS_CACHE_HOST_PREFIX')) {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['backend'] = \TYPO3\CMS\Core\Cache\Backend\RedisBackend::class;
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['options'] = [
             'database' => $redisDatabase,
-            'hostname' => $redisCacheHostPrefix . $cache,
+            'hostname' => $redisCacheHostPrefix . str_replace('_', '-', $cache),
             'port' => $redisPort,
             'defaultLifetime' => $defaultLifetime
         ];
