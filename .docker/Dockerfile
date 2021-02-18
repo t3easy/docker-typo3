@@ -16,6 +16,16 @@ COPY .docker/ca-certificates /usr/local/share/ca-certificates
 RUN update-ca-certificates
 ENV PATH "/app/vendor/bin:$PATH"
 
+RUN set -eux; \
+        mkdir -p /app/private/fileadmin; \
+            chown -R www-data:www-data /app/private/fileadmin; \
+        mkdir -p /app/private/typo3temp/assets; \
+            chown -R www-data:www-data /app/private/typo3temp/assets; \
+        mkdir -p /app/private/typo3temp/var; \
+            chown -R www-data:www-data /app/private/typo3temp/var; \
+        mkdir -p /app/private/uploads; \
+            chown -R www-data:www-data /app/private/uploads
+
 FROM php-base as php-production
 COPY --chown=82 --from=builder /app .
 ENV TYPO3_CONTEXT Production
