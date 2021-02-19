@@ -5,9 +5,7 @@ ARG TARGET_SERVICE=php
 FROM t3easy/php:${PHP_VERSION}-development AS builder
 COPY . /app
 # Remove .docker because it cannot be excluded with .dockerignore
-RUN rm -rf /app/.docker \
-    && mkdir -p /app/config \
-    && mkdir -p /app/var
+RUN rm -rf /app/.docker
 RUN composer install --no-ansi --no-interaction --no-dev --no-progress --classmap-authoritative
 
 FROM t3easy/php:${PHP_VERSION}-${TARGET_ENVIRONMENT} AS php-base
@@ -17,6 +15,13 @@ RUN rm /var/spool/cron/crontabs/root \
 COPY .docker/ca-certificates /usr/local/share/ca-certificates
 RUN update-ca-certificates
 ENV PATH "/app/vendor/bin:$PATH"
+
+RUN set -eux; \
+        mkdir -p /app/config; \
+        mkdir -p /app/private/fileadmin; \
+        mkdir -p /app/private/typo3temp; \
+        mkdir -p /app/var; \
+        chown -R www-data:www-data /app
 
 FROM php-base as php-production
 COPY --chown=82 --from=builder /app .
