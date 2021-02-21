@@ -64,24 +64,15 @@ services:
     - '[ -f /app/private/typo3conf/LocalConfiguration.php ] || touch /app/private/FIRST_INSTALL
       && php-fpm'
     depends_on:
-      db:
-        condition: service_started
-      redis-cache-extbase:
-        condition: service_started
-      redis-cache-hash:
-        condition: service_started
-      redis-cache-imagesizes:
-        condition: service_started
-      redis-cache-pages:
-        condition: service_started
-      redis-cache-pagesection:
-        condition: service_started
-      redis-cache-rootline:
-        condition: service_started
-      redis-session-be:
-        condition: service_started
-      redis-session-fe:
-        condition: service_started
+    - db
+    - redis-cache-extbase
+    - redis-cache-hash
+    - redis-cache-imagesizes
+    - redis-cache-pages
+    - redis-cache-pagesection
+    - redis-cache-rootline
+    - redis-session-be
+    - redis-session-fe
     environment:
       MYSQL_DATABASE: typo3
       MYSQL_HOST: db
@@ -102,8 +93,7 @@ services:
     - var:/app/var:rw
   web:
     depends_on:
-      typo3:
-        condition: service_started
+    - typo3
     image: t3easy/typo3:web-11
     labels:
       traefik.docker.network: frontend
