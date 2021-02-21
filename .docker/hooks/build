@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TYPO3_MAJOR_VERSION=10
+TYPO3_MAJOR_VERSION=11
 
 pushd ../
 
