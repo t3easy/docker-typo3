@@ -12,8 +12,8 @@ env:
   TYPO3_INSTALL_SITE_SETUP_TYPE: site
   TYPO3_INSTALL_WEB_SERVER_CONFIG: none
   VHOST: typo3.localhost
-  TYPO3_IMAGE: docker.pkg.github.com/${{ github.repository }}/typo3:10.x-test
-  WEB_IMAGE: docker.pkg.github.com/${{ github.repository }}/web:10.x-test
+  TYPO3_IMAGE: docker.pkg.github.com/$GITHUB_REPOSITORY/typo3:$GITHUB_REF-test
+  WEB_IMAGE: docker.pkg.github.com/$GITHUB_REPOSITORY/web:$GITHUB_REF-test
 
 jobs:
   build:
