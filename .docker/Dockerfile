@@ -2,8 +2,8 @@ ARG PHP_VERSION=7.2
 ARG TARGET_ENVIRONMENT=production
 
 FROM nginx:alpine as web-base
-COPY .docker/web/typo3.conf /etc/nginx/
-COPY .docker/web/default.conf /etc/nginx/conf.d/
+ENV CLIENT_MAX_BODY_SIZE=100m
+COPY .docker/web/*.conf.template /etc/nginx/templates
 WORKDIR /app
 
 FROM web-base as web-development
@@ -14,7 +14,6 @@ RUN rm /var/spool/cron/crontabs/root \
  && echo '*/15 * * * * php -f /app/vendor/bin/typo3 scheduler:run' > /var/spool/cron/crontabs/www-data
 COPY .docker/ca-certificates /usr/local/share/ca-certificates
 RUN update-ca-certificates
-ENV PATH "/app/vendor/bin:$PATH"
 RUN set -eux; \
         mkdir -p /app/config; \
         mkdir -p /app/private/fileadmin; \
@@ -23,10 +22,10 @@ RUN set -eux; \
         chown -R www-data:www-data /app
 
 FROM php-base as php-development
-ENV TYPO3_CONTEXT Development
+ENV TYPO3_CONTEXT=Development
 
 FROM t3easy/php:${PHP_VERSION}-development AS builder
-ENV XDEBUG_MODE off
+ENV XDEBUG_MODE=off
 COPY . /app
 # Remove .docker because it cannot be excluded with .dockerignore
 RUN rm -rf /app/.docker
@@ -37,4 +36,4 @@ COPY --chown=101 --from=builder /app /app
 
 FROM php-base as php-production
 COPY --chown=82 --from=builder /app .
-ENV TYPO3_CONTEXT Production
+ENV TYPO3_CONTEXT=Production

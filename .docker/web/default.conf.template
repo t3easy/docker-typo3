@@ -1,0 +1,149 @@
+server {
+    listen                80 default_server;
+    server_name           _;
+    root                  /app/public;
+    client_max_body_size  $CLIENT_MAX_BODY_SIZE;
+    index                 index.php index.html index.htm;
+    server_tokens         off;
+    charset               utf-8;
+
+    gzip                  on;
+    gzip_disable          "msie6";
+    gzip_vary             on;
+    gzip_comp_level       6;
+    gzip_types            application/atom+xml
+                          application/javascript
+                          application/json
+                          application/ld+json
+                          application/manifest+json
+                          application/rdf+xml
+                          application/rss+xml
+                          application/schema+json
+                          application/vnd.geo+json
+                          application/vnd.ms-fontobject
+                          application/x-font-ttf
+                          application/x-javascript
+                          application/x-web-app-manifest+json
+                          application/xhtml+xml
+                          application/xml
+                          font/eot
+                          font/opentype
+                          image/bmp
+                          image/svg+xml
+                          image/vnd.microsoft.icon
+                          image/x-icon
+                          text/cache-manifest
+                          text/css
+                          text/html
+                          text/javascript
+                          text/plain
+                          text/vcard
+                          text/vnd.rim.location.xloc
+                          text/vtt
+                          text/x-component
+                          text/x-cross-domain-policy
+                          text/xml;
+
+    # TYPO3 - Block access to composer files
+    location ~* composer\.(?:json|lock) {
+        deny all;
+    }
+
+    # TYPO3 - Block access to flexform files
+    location ~* flexform[^.]*\.xml {
+        deny all;
+    }
+
+    # TYPO3 - Block access to language files
+    location ~* locallang[^.]*\.(?:xml|xlf)$ {
+        deny all;
+    }
+
+    # TYPO3 - Block access to static typoscript files
+    location ~* ext_conf_template\.txt|ext_typoscript_constants\.txt|ext_typoscript_setup\.txt {
+        deny all;
+    }
+
+    # TYPO3 - Block access to miscellaneous protected files
+    location ~* /.*\.(?:bak|co?nf|cfg|ya?ml|ts|typoscript|tsconfig|dist|fla|in[ci]|log|sh|sql|sqlite)$ {
+        deny all;
+    }
+
+    # TYPO3 - Block access to recycler and temporary directories
+    location ~ _(?:recycler|temp)_/ {
+        deny all;
+    }
+
+    # TYPO3 - Block access to configuration files stored in fileadmin
+    location ~ ^/fileadmin/(?:templates)/.*\.(?:txt|ts)$ {
+        deny all;
+    }
+
+    # TYPO3 - Block access to libraries, source and temporary compiled data
+    location ~ ^/(?:vendor|typo3_src|typo3temp/var) {
+        deny all;
+    }
+
+    # TYPO3 - Block access to protected extension directories
+    location ~ (?:typo3conf/ext|typo3/sysext|typo3/ext)/[^/]+/(?:Configuration|Resources/Private|Tests?|Documentation|docs?)/ {
+        deny all;
+    }
+
+    # Compressing resource files will save bandwidth and so improve loading speed especially for users
+    # with slower internet connections. TYPO3 can compress the .js and .css files for you.
+    # *) Set $GLOBALS['TYPO3_CONF_VARS']['BE']['compressionLevel'] = 9 for the Backend
+    # *) Set $GLOBALS['TYPO3_CONF_VARS']['FE']['compressionLevel'] = 9 together with the TypoScript properties
+    #    config.compressJs and config.compressCss for GZIP compression of Frontend JS and CSS files.
+    location ~ \.js\.gzip$ {
+        add_header Content-Encoding gzip;
+        gzip off;
+        types { text/javascript gzip; }
+    }
+    location ~ \.css\.gzip$ {
+        add_header Content-Encoding gzip;
+        gzip off;
+        types { text/css gzip; }
+    }
+
+    # TYPO3 - Rule for versioned static files, configured through:
+    # - $GLOBALS['TYPO3_CONF_VARS']['BE']['versionNumberInFilename']
+    # - $GLOBALS['TYPO3_CONF_VARS']['FE']['versionNumberInFilename']
+    location ~ ^(.+)\.(\d+)\.(php|js|css|png|jpg|gif|gzip)$ {
+        try_files $uri $1.$3 =404;
+        expires max;
+    }
+
+    # TYPO3 - Static File Directories
+    location ~ ^/(?:fileadmin|typo3conf|typo3temp|uploads)/ {
+        # Do nothing
+    }
+
+    location ~* \.(?:js|css|png|jpg|jpeg|gif|ico|svg)$ {
+        try_files $uri /index.php$is_args$args;
+        expires max;
+    }
+
+    # TYPO3 - If the file/directory does not exist => Redirect to index.php.
+    location / {
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
+
+    location ~ [^/]\.php(/|$) {
+        fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+        if (!-f $document_root$fastcgi_script_name) {
+            return 404;
+        }
+
+        # Mitigate https://httpoxy.org/ vulnerabilities
+        fastcgi_param HTTP_PROXY "";
+
+        fastcgi_buffer_size      32k;
+        fastcgi_buffers          8 16k;
+        fastcgi_connect_timeout  240s;
+        fastcgi_read_timeout     240s;
+        fastcgi_send_timeout     240s;
+        fastcgi_pass             typo3:9000;
+        fastcgi_index            index.php;
+        include                  fastcgi.conf;
+    }
+}
