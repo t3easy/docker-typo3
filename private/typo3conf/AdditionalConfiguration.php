@@ -82,6 +82,9 @@ if ($redisSessionHostPrefix = getenv('REDIS_SESSION_HOST_PREFIX')) {
     ];
 }
 
+$GLOBALS['TYPO3_CONF_VARS']['BE']['versionNumberInFilename'] = 'embed';
+$GLOBALS['TYPO3_CONF_VARS']['FE']['versionNumberInFilename'] = 'embed';
+
 if ($isDocker) {
     $GLOBALS['TYPO3_CONF_VARS']['GFX'] = array_merge(
         $GLOBALS['TYPO3_CONF_VARS']['GFX'],
@@ -102,6 +105,10 @@ if ($isDocker) {
     ];
     unset($GLOBALS['TYPO3_CONF_VARS']['LOG']['TYPO3']['CMS']['Core']['Resource']['ResourceStorage']['writerConfiguration'][\TYPO3\CMS\Core\Log\LogLevel::ERROR][\TYPO3\CMS\Core\Log\Writer\FileWriter::class]);
     $GLOBALS['TYPO3_CONF_VARS']['LOG']['TYPO3']['CMS']['Core']['Resource']['ResourceStorage']['writerConfiguration'][\TYPO3\CMS\Core\Log\LogLevel::ERROR][\TYPO3\CMS\Core\Log\Writer\PhpErrorLogWriter::class] = [];
+}
+
+if ($context->isDevelopment()) {
+    $GLOBALS['TYPO3_CONF_VARS']['LOG']['TYPO3']['CMS']['deprecations']['writerConfiguration'][\TYPO3\CMS\Core\Log\LogLevel::NOTICE][\TYPO3\CMS\Core\Log\Writer\FileWriter::class]['disabled'] = false;
 }
 
 if ($context->isTesting()){
