@@ -1,0 +1,34 @@
+version: '3.5'
+
+x-redis:
+  &redis
+  image: redis:alpine
+  networks:
+    typo3-redis:
+  restart: ${RESTART}
+
+services:
+  typo3:
+    depends_on:
+    - redis-cache-cache-hash
+    - redis-cache-cache-imagesizes
+    - redis-cache-cache-pages
+    - redis-cache-cache-pagesection
+    - redis-cache-cache-rootline
+    - redis-cache-extbase-reflection
+    - redis-cache-extbase-datamapfactory-datamap
+    environment:
+      REDIS_CACHE_HOST_PREFIX: redis-cache-
+    networks:
+      typo3-redis:
+
+  redis-cache-cache-hash: *redis
+  redis-cache-cache-imagesizes: *redis
+  redis-cache-cache-pages: *redis
+  redis-cache-cache-pagesection: *redis
+  redis-cache-cache-rootline: *redis
+  redis-cache-extbase-reflection: *redis
+  redis-cache-extbase-datamapfactory-datamap: *redis
+
+networks:
+  typo3-redis:
