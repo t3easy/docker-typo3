@@ -4,14 +4,14 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
+      target: web-production
       args:
         TARGET_ENVIRONMENT: production
-        TARGET_SERVICE: web
 
   typo3:
     build:
       context: .
       dockerfile: .docker/Dockerfile
+      target: php-production
       args:
         TARGET_ENVIRONMENT: production
-        TARGET_SERVICE: php
