@@ -3,7 +3,7 @@ ARG TARGET_ENVIRONMENT=production
 
 FROM nginx:alpine as web-base
 ENV CLIENT_MAX_BODY_SIZE=100m
-COPY .docker/web/*.conf.template /etc/nginx/templates
+COPY .docker/web/*.conf.template /etc/nginx/templates/
 WORKDIR /app
 
 FROM web-base as web-development
