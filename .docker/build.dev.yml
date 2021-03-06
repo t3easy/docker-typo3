@@ -3,14 +3,13 @@ services:
   web:
     build:
       dockerfile: .docker/Dockerfile
+      target: web-development
       args:
         TARGET_ENVIRONMENT: development
-        TARGET_SERVICE: web
 
   typo3:
     build:
       dockerfile: .docker/Dockerfile
+      target: php-development
       args:
         TARGET_ENVIRONMENT: development
-        TARGET_SERVICE: php
-
