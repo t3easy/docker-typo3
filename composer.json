@@ -10,6 +10,7 @@
         }
     ],
     "require": {
+        "doctrine/dbal": "~2.12.1",
         "helhum/typo3-console": "dev-latest",
         "helhum/typo3-secure-web": "^0.3.1",
         "typo3/cms-backend": "^11.1.1",
