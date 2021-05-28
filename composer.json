@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "helhum/typo3-console": "^5.7",
-        "helhum/typo3-secure-web": "^0.2.8",
+        "helhum/typo3-console": "^5.8",
+        "helhum/typo3-secure-web": "^0.3",
         "typo3/cms-about": "^9.5",
         "typo3/cms-adminpanel": "^9.5",
         "typo3/cms-belog": "^9.5",
@@ -37,7 +37,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.2"
+            "php": "7.4.19"
         }
     },
     "extra": {

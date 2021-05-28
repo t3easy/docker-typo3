@@ -1,4 +1,4 @@
-ARG PHP_VERSION=7.2
+ARG PHP_VERSION=7.4
 ARG TARGET_ENVIRONMENT=production
 
 FROM nginx:alpine as web-base
