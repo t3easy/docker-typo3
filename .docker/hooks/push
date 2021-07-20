@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-TYPO3_MAJOR_VERSION=11
-
-# Build with default args in Dockerfile
-docker push $IMAGE_NAME
-docker push $DOCKER_REPO:web-$TYPO3_MAJOR_VERSION
-docker push $DOCKER_REPO:typo3-$TYPO3_MAJOR_VERSION-dev
-docker push $DOCKER_REPO:web-$TYPO3_MAJOR_VERSION-dev
