@@ -9,10 +9,14 @@ jobs:
     permissions:
       contents: read
       packages: write
+    strategy:
+      matrix:
+        include:
+        - branch: main
+          typo3-version: dev-master
     env:
       IMAGE_NAME: t3easy/typo3
       PLATFORMS: linux/amd64,linux/arm64
-      TYPO3_MAJOR_VERSION: dev-master
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -38,7 +42,7 @@ jobs:
         context: .
         file: .docker/Dockerfile
         tags: |
-          ghcr.io/${{ env.IMAGE_NAME }}:web-${{ env.TYPO3_MAJOR_VERSION }}-dev
+          ghcr.io/${{ env.IMAGE_NAME }}:web-${{ matrix.typo3-version }}-dev
         target: web-development
         platforms: ${{ env.PLATFORMS }}
         push: true
@@ -51,7 +55,7 @@ jobs:
         context: .
         file: .docker/Dockerfile
         tags: |
-          ghcr.io/${{ env.IMAGE_NAME }}:typo3-${{ env.TYPO3_MAJOR_VERSION }}-dev
+          ghcr.io/${{ env.IMAGE_NAME }}:typo3-${{ matrix.typo3-version }}-dev
         target: php-development
         platforms: ${{ env.PLATFORMS }}
         push: true
@@ -62,7 +66,7 @@ jobs:
         context: .
         file: .docker/Dockerfile
         tags: |
-          ghcr.io/${{ env.IMAGE_NAME }}:web-${{ env.TYPO3_MAJOR_VERSION }}
+          ghcr.io/${{ env.IMAGE_NAME }}:web-${{ matrix.typo3-version }}
         target: web-production
         platforms: ${{ env.PLATFORMS }}
         push: true
@@ -73,7 +77,7 @@ jobs:
         context: .
         file: .docker/Dockerfile
         tags: |
-          ghcr.io/${{ env.IMAGE_NAME }}:typo3-${{ env.TYPO3_MAJOR_VERSION }}
+          ghcr.io/${{ env.IMAGE_NAME }}:typo3-${{ matrix.typo3-version }}
         target: php-production
         platforms: ${{ env.PLATFORMS }}
         push: true
