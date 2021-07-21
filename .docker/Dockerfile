@@ -2,6 +2,7 @@ ARG PHP_VERSION=7.4
 ARG TARGET_ENVIRONMENT=production
 
 FROM nginx:alpine as web-base
+LABEL org.opencontainers.image.source="https://github.com/t3easy/docker-typo3"
 ENV CLIENT_MAX_BODY_SIZE=100m
 COPY .docker/web/*.conf.template /etc/nginx/templates/
 WORKDIR /app
@@ -9,6 +10,7 @@ WORKDIR /app
 FROM web-base as web-development
 
 FROM t3easy/php:${PHP_VERSION}-${TARGET_ENVIRONMENT} AS php-base
+LABEL org.opencontainers.image.source="https://github.com/t3easy/docker-typo3"
 COPY .docker/cron.sh /usr/local/bin/cron
 RUN rm /var/spool/cron/crontabs/root \
  && echo '*/15 * * * * php -f /app/vendor/bin/typo3 scheduler:run' > /var/spool/cron/crontabs/www-data
