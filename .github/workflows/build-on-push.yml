@@ -14,12 +14,21 @@ jobs:
         include:
         - branch: main
           typo3-version: dev-master
+        - branch: 11.x
+          typo3-version: 11
+        - branch: 10.x
+          typo3-version: 10
+        - branch: 9.x
+          typo3-version: 9
+        
     env:
       IMAGE_NAME: t3easy/typo3
       PLATFORMS: linux/amd64,linux/arm64
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+        ref: ${{ matrix.branch }}
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
