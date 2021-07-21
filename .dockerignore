@@ -7,4 +7,13 @@
 /.git*
 /.surf
 /docker-compose.yml
+/private/*
+!/private/typo3conf
+/private/typo3conf/*
+!/private/typo3conf/*.php
+/private/typo3conf/PackageStates.php
+/public
 /README.md
+/var/*
+!/var/labels
+/vendor
