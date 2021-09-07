@@ -134,11 +134,15 @@ docker-compose exec -T db sh -c 'exec mysqldump --opt --single-transaction -u"$M
 ### Import a sql dump
 ```shell
 docker-compose exec -T db sh -c 'exec mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE"' < dump.sql
+# Setup new/development extensions
+docker-compose exec -u www-data typo3 typo3cms extension:setupactive --verbose
 ```
 
 ### Import directly from remote
 ```shell
 ssh user@server 'TYPO3_CONTEXT="Production" /path/to/typo3cms database:export' | docker-compose exec -T db sh -c 'exec mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE"'
+# Setup new/development extensions
+docker-compose exec -u www-data typo3 typo3cms extension:setupactive --verbose
 ```
 
 ### Why can't you use typo3-console to import/export the database to/from the docker environment
