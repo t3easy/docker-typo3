@@ -1,4 +1,3 @@
-version: '3.5'
 services:
   typo3:
     environment:
@@ -13,7 +12,7 @@ services:
       BLACKFIRE_SERVER_TOKEN:
     networks:
       typo3-blackfire:
-    restart: ${RESTART}
+    restart: "${RESTART}"
 
 networks:
   typo3-blackfire:

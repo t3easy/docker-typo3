@@ -1,4 +1,3 @@
-version: '3.5'
 services:
   scheduler:
     image: ${TYPO3_IMAGE}
@@ -15,4 +14,4 @@ services:
     - .docker/.env.db
     environment:
       MYSQL_HOST: db
-    restart: ${RESTART}
+    restart: "${RESTART}"

@@ -1,11 +1,9 @@
-version: '3.5'
-
 x-redis:
   &redis
   image: redis:alpine
   networks:
     typo3-redis:
-  restart: ${RESTART}
+  restart: "${RESTART}"
 
 services:
   typo3:

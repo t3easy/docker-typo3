@@ -1,61 +1,63 @@
-networks:
-  frontend: {}
-  typo3-db: {}
-  typo3-redis: {}
-  web-typo3: {}
 services:
   db:
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    command:
+    - --character-set-server=utf8mb4
+    - --collation-server=utf8mb4_unicode_ci
     environment:
       MYSQL_DATABASE: typo3
       MYSQL_PASSWORD: typo3
       MYSQL_ROOT_PASSWORD: typo3
       MYSQL_USER: typo3
+    env_file:
+    - .docker/.env.db
     image: mariadb:10.2
     networks:
-      typo3-db: {}
+      typo3-db: null
     restart: "no"
     volumes:
-    - db:/var/lib/mysql:rw
+    - type: volume
+      source: db
+      target: /var/lib/mysql
+      volume: {}
   redis-cache-extbase:
     image: redis:alpine
     networks:
-      typo3-redis: {}
+      typo3-redis: null
     restart: "no"
   redis-cache-hash:
     image: redis:alpine
     networks:
-      typo3-redis: {}
+      typo3-redis: null
     restart: "no"
   redis-cache-imagesizes:
     image: redis:alpine
     networks:
-      typo3-redis: {}
+      typo3-redis: null
     restart: "no"
   redis-cache-pages:
     image: redis:alpine
     networks:
-      typo3-redis: {}
+      typo3-redis: null
     restart: "no"
   redis-cache-pagesection:
     image: redis:alpine
     networks:
-      typo3-redis: {}
+      typo3-redis: null
     restart: "no"
   redis-cache-rootline:
     image: redis:alpine
     networks:
-      typo3-redis: {}
+      typo3-redis: null
     restart: "no"
   redis-session-be:
     image: redis:alpine
     networks:
-      typo3-redis: {}
+      typo3-redis: null
     restart: "no"
   redis-session-fe:
     image: redis:alpine
     networks:
-      typo3-redis: {}
+      typo3-redis: null
     restart: "no"
   typo3:
     command:
@@ -64,15 +66,24 @@ services:
     - '[ -f /app/private/typo3conf/LocalConfiguration.php ] || touch /app/private/FIRST_INSTALL
       && php-fpm'
     depends_on:
-    - db
-    - redis-cache-extbase
-    - redis-cache-hash
-    - redis-cache-imagesizes
-    - redis-cache-pages
-    - redis-cache-pagesection
-    - redis-cache-rootline
-    - redis-session-be
-    - redis-session-fe
+      db:
+        condition: service_started
+      redis-cache-extbase:
+        condition: service_started
+      redis-cache-hash:
+        condition: service_started
+      redis-cache-imagesizes:
+        condition: service_started
+      redis-cache-pages:
+        condition: service_started
+      redis-cache-pagesection:
+        condition: service_started
+      redis-cache-rootline:
+        condition: service_started
+      redis-session-be:
+        condition: service_started
+      redis-session-fe:
+        condition: service_started
     environment:
       MYSQL_DATABASE: typo3
       MYSQL_HOST: db
@@ -81,50 +92,80 @@ services:
       REDIS_CACHE_HOST_PREFIX: redis-cache-
       REDIS_SESSION_HOST_PREFIX: redis-session-
       TRUSTED_HOSTS_PATTERN: .*\.play-with-docker\.com
+    env_file:
+    - .docker/.env.db
     image: t3easy/typo3:typo3-dev-master
     networks:
-      typo3-db: {}
-      typo3-redis: {}
-      web-typo3: {}
+      typo3-db: null
+      typo3-redis: null
+      web-typo3: null
     restart: "no"
     volumes:
-    - fileadmin:/app/private/fileadmin:rw
-    - typo3temp:/app/private/typo3temp:rw
-    - var:/app/var:rw
+    - type: volume
+      source: fileadmin
+      target: /app/private/fileadmin
+      volume: {}
+    - type: volume
+      source: typo3temp
+      target: /app/private/typo3temp
+      volume: {}
+    - type: volume
+      source: var
+      target: /app/var
+      volume: {}
   web:
     depends_on:
-    - typo3
+      typo3:
+        condition: service_started
     image: t3easy/typo3:web-dev-master
     labels:
       traefik.docker.network: frontend
       traefik.enable: "true"
       traefik.frontend.rule: Host:www.domain.tld
     networks:
-      frontend: {}
+      frontend: null
       web-typo3:
         aliases:
         - www.domain.tld
     ports:
-    - published: 80
+    - mode: ingress
       target: 80
+      published: 80
+      protocol: tcp
     restart: "no"
     volumes:
-    - read_only: true
+    - type: volume
       source: fileadmin
       target: /app/private/fileadmin
-      type: volume
+      read_only: true
       volume:
         nocopy: true
-    - read_only: true
+    - type: volume
       source: typo3temp
       target: /app/private/typo3temp
-      type: volume
+      read_only: true
       volume:
         nocopy: true
-version: '3.5'
+networks:
+  frontend:
+    name: docker-typo3_frontend
+  typo3-db:
+    name: docker-typo3_typo3-db
+  typo3-redis:
+    name: docker-typo3_typo3-redis
+  web-typo3:
+    name: docker-typo3_web-typo3
 volumes:
-  db: {}
-  fileadmin: {}
-  typo3temp: {}
-  var: {}
-
+  db:
+    name: docker-typo3_db
+  fileadmin:
+    name: docker-typo3_fileadmin
+  typo3temp:
+    name: docker-typo3_typo3temp
+  var:
+    name: docker-typo3_var
+x-redis:
+  image: redis:alpine
+  networks:
+    typo3-redis: null
+  restart: "no"

@@ -1,4 +1,3 @@
-version: '3.5'
 services:
   typo3:
     depends_on:
@@ -12,7 +11,7 @@ services:
       typo3-solr:
     volumes:
     - solr:/opt/solr/server/solr/data
-    restart: ${RESTART}
+    restart: "${RESTART}"
 
 networks:
   typo3-solr:

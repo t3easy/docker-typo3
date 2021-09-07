@@ -1,4 +1,3 @@
-version: '3.5'
 services:
   db:
     networks:
@@ -15,8 +14,8 @@ services:
       traefik.docker.network: ${FRONTEND_NETWORK:-frontend}
       traefik.enable: "true"
       traefik.frontend.rule: Host:adminer.${VHOST}
-      traefik.port: '8080'
-    restart: ${RESTART}
+      traefik.port: "8080"
+    restart: "${RESTART}"
 
 networks:
   adminer-db:
