@@ -11,7 +11,7 @@ services:
     labels:
       traefik.docker.network: ${FRONTEND_NETWORK:-frontend}
       traefik.enable: "true"
-      traefik.frontend.rule: Host:${VHOST}
+      traefik.frontend.rule: Host:${VHOST}${ADDITIONAL_VHOSTS}
     restart: "${RESTART}"
 
   typo3:

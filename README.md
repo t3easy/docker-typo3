@@ -50,6 +50,10 @@ The FQDN of the TYPO3 project.
 It gets prefixed for other services, e.g. if you set VHOST to `typo3.localhost`,
 you can reach Adminer at `adminer.typo3.localhost` and Mailhog at `mail.typo3.localhost`.
 
+### ADDITIONAL_VHOSTS
+Adds additional names to the TYPO3 web service. The value must start with a comma (`,`).
+Example `,2nd.domain.tld,3rd.domain.tld`
+
 ### FRONTEND_NETWORK
 The name of the docker network that Traefik can use to connect to the web service.
 
