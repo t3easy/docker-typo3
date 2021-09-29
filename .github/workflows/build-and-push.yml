@@ -21,7 +21,13 @@ jobs:
           typo3-version: 10
         - branch: 9.x
           typo3-version: 9
-        
+        - branch: main
+          node-version: 14
+        - branch: main
+          node-version: 12
+        - branch: main
+          node-version: 10
+
     env:
       IMAGE_NAME: t3easy/typo3
       PLATFORMS: linux/amd64,linux/arm64
@@ -46,6 +52,7 @@ jobs:
 
     - name: Build and push web-development
       uses: docker/build-push-action@v2
+      if: ${{ matrix.typo3-version }}
       with:
         build-args: |
           TARGET_ENVIRONMENT=development
@@ -59,6 +66,7 @@ jobs:
 
     - name: Build and push php-development
       uses: docker/build-push-action@v2
+      if: ${{ matrix.typo3-version }}
       with:
         build-args: |
           TARGET_ENVIRONMENT=development
@@ -72,6 +80,7 @@ jobs:
 
     - name: Build and push web-production
       uses: docker/build-push-action@v2
+      if: ${{ matrix.typo3-version }}
       with:
         context: .
         file: .docker/Dockerfile
@@ -83,11 +92,24 @@ jobs:
 
     - name: Build and push php-production
       uses: docker/build-push-action@v2
+      if: ${{ matrix.typo3-version }}
       with:
         context: .
         file: .docker/Dockerfile
         tags: |
           ghcr.io/${{ env.IMAGE_NAME }}:typo3-${{ matrix.typo3-version }}
         target: php-production
+        platforms: ${{ env.PLATFORMS }}
+        push: true
+
+    - name: Build and push node
+      uses: docker/build-push-action@v2
+      if: ${{ matrix.node-version }}
+      with:
+        context: .
+        file: .docker/Dockerfile
+        tags: |
+          ghcr.io/${{ env.IMAGE_NAME }}:node-${{ matrix.node-version }}
+        target: node
         platforms: ${{ env.PLATFORMS }}
         push: true
