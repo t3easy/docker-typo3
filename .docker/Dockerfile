@@ -11,7 +11,7 @@ ENV npm_config_cache /tmp/cache/npm
 RUN set -eux; \
         yarn global add gulp-cli; \
         rm -rf ${YARN_CACHE_FOLDER}; \
-        gulp --version \
+        gulp --version
 WORKDIR /app
 
 FROM nginx:alpine as web-base
