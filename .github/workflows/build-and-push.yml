@@ -43,6 +43,12 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v1
       with:
@@ -59,6 +65,7 @@ jobs:
         context: .
         file: .docker/Dockerfile
         tags: |
+          ${{ env.IMAGE_NAME }}:web-${{ matrix.typo3-version }}-dev
           ghcr.io/${{ env.IMAGE_NAME }}:web-${{ matrix.typo3-version }}-dev
         target: web-development
         platforms: ${{ env.PLATFORMS }}
@@ -73,6 +80,7 @@ jobs:
         context: .
         file: .docker/Dockerfile
         tags: |
+          ${{ env.IMAGE_NAME }}:typo3-${{ matrix.typo3-version }}-dev
           ghcr.io/${{ env.IMAGE_NAME }}:typo3-${{ matrix.typo3-version }}-dev
         target: php-development
         platforms: ${{ env.PLATFORMS }}
@@ -85,6 +93,7 @@ jobs:
         context: .
         file: .docker/Dockerfile
         tags: |
+          ${{ env.IMAGE_NAME }}:web-${{ matrix.typo3-version }}
           ghcr.io/${{ env.IMAGE_NAME }}:web-${{ matrix.typo3-version }}
         target: web-production
         platforms: ${{ env.PLATFORMS }}
@@ -97,6 +106,7 @@ jobs:
         context: .
         file: .docker/Dockerfile
         tags: |
+          ${{ env.IMAGE_NAME }}:typo3-${{ matrix.typo3-version }}
           ghcr.io/${{ env.IMAGE_NAME }}:typo3-${{ matrix.typo3-version }}
         target: php-production
         platforms: ${{ env.PLATFORMS }}
@@ -109,6 +119,7 @@ jobs:
         context: .
         file: .docker/Dockerfile
         tags: |
+          ${{ env.IMAGE_NAME }}:node-${{ matrix.node-version }}
           ghcr.io/${{ env.IMAGE_NAME }}:node-${{ matrix.node-version }}
         target: node
         platforms: ${{ env.PLATFORMS }}
