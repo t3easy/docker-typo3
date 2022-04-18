@@ -1,4 +1,8 @@
-name: typo3
+networks:
+  frontend: {}
+  typo3-db: {}
+  typo3-redis: {}
+  web-typo3: {}
 services:
   db:
     command:
@@ -11,52 +15,49 @@ services:
       MYSQL_USER: typo3
     image: mariadb:10.2
     networks:
-      typo3-db: null
+      typo3-db: {}
     restart: "no"
     volumes:
-    - type: volume
-      source: db
-      target: /var/lib/mysql
-      volume: {}
+    - db:/var/lib/mysql:rw
   redis-cache-extbase:
     image: redis:alpine
     networks:
-      typo3-redis: null
+      typo3-redis: {}
     restart: "no"
   redis-cache-hash:
     image: redis:alpine
     networks:
-      typo3-redis: null
+      typo3-redis: {}
     restart: "no"
   redis-cache-imagesizes:
     image: redis:alpine
     networks:
-      typo3-redis: null
+      typo3-redis: {}
     restart: "no"
   redis-cache-pages:
     image: redis:alpine
     networks:
-      typo3-redis: null
+      typo3-redis: {}
     restart: "no"
   redis-cache-pagesection:
     image: redis:alpine
     networks:
-      typo3-redis: null
+      typo3-redis: {}
     restart: "no"
   redis-cache-rootline:
     image: redis:alpine
     networks:
-      typo3-redis: null
+      typo3-redis: {}
     restart: "no"
   redis-session-be:
     image: redis:alpine
     networks:
-      typo3-redis: null
+      typo3-redis: {}
     restart: "no"
   redis-session-fe:
     image: redis:alpine
     networks:
-      typo3-redis: null
+      typo3-redis: {}
     restart: "no"
   typo3:
     command:
@@ -93,35 +94,17 @@ services:
       TRUSTED_HOSTS_PATTERN: .*\.play-with-docker\.com
     image: t3easy/typo3:typo3-dev-master
     networks:
-      typo3-db: null
-      typo3-redis: null
-      web-typo3: null
+      typo3-db: {}
+      typo3-redis: {}
+      web-typo3: {}
     restart: "no"
     volumes:
-    - type: volume
-      source: fileadmin
-      target: /app/private/fileadmin
-      volume: {}
-    - type: volume
-      source: typo3temp
-      target: /app/private/typo3temp
-      volume: {}
-    - type: volume
-      source: var-charset
-      target: /app/var/charset
-      volume: {}
-    - type: volume
-      source: var-lock
-      target: /app/var/lock
-      volume: {}
-    - type: volume
-      source: var-log
-      target: /app/var/log
-      volume: {}
-    - type: volume
-      source: var-session
-      target: /app/var/session
-      volume: {}
+    - fileadmin:/app/private/fileadmin:rw
+    - typo3temp:/app/private/typo3temp:rw
+    - var-charset:/app/var/charset:rw
+    - var-lock:/app/var/lock:rw
+    - var-log:/app/var/log:rw
+    - var-session:/app/var/session:rw
   web:
     depends_on:
       typo3:
@@ -132,55 +115,34 @@ services:
       traefik.enable: "true"
       traefik.frontend.rule: Host:www.domain.tld
     networks:
-      frontend: null
+      frontend: {}
       web-typo3:
         aliases:
         - www.domain.tld
     ports:
-    - mode: ingress
+    - published: 80
       target: 80
-      published: "80"
-      protocol: tcp
     restart: "no"
     volumes:
-    - type: volume
+    - read_only: true
       source: fileadmin
       target: /app/private/fileadmin
-      read_only: true
+      type: volume
       volume:
         nocopy: true
-    - type: volume
+    - read_only: true
       source: typo3temp
       target: /app/private/typo3temp
-      read_only: true
+      type: volume
       volume:
         nocopy: true
-networks:
-  frontend:
-    name: typo3_frontend
-  typo3-db:
-    name: typo3_typo3-db
-  typo3-redis:
-    name: typo3_typo3-redis
-  web-typo3:
-    name: typo3_web-typo3
+version: '3.9'
 volumes:
-  db:
-    name: typo3_db
-  fileadmin:
-    name: typo3_fileadmin
-  typo3temp:
-    name: typo3_typo3temp
-  var-charset:
-    name: typo3_var-charset
-  var-lock:
-    name: typo3_var-lock
-  var-log:
-    name: typo3_var-log
-  var-session:
-    name: typo3_var-session
-x-redis:
-  image: redis:alpine
-  networks:
-    typo3-redis: null
-  restart: "no"
+  db: {}
+  fileadmin: {}
+  typo3temp: {}
+  var-charset: {}
+  var-lock: {}
+  var-log: {}
+  var-session: {}
+
