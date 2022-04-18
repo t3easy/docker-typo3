@@ -52,7 +52,7 @@ if ($redisCacheHostPrefix = getenv('REDIS_CACHE_HOST_PREFIX')) {
             'defaultLifetime' => $defaultLifetime
         ];
     }
-} else {
+} elseif (extension_loaded('apcu') && ini_get('apc.enabled')) {
     foreach ($caches as $cache => $defaultLifetime) {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['backend'] = \TYPO3\CMS\Core\Cache\Backend\ApcuBackend::class;
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$cache]['options'] = [
