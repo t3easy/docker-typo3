@@ -1,3 +1,4 @@
+name: typo3
 services:
   db:
     command:
@@ -8,8 +9,6 @@ services:
       MYSQL_PASSWORD: typo3
       MYSQL_ROOT_PASSWORD: typo3
       MYSQL_USER: typo3
-    env_file:
-    - .docker/.env.db
     image: mariadb:10.2
     networks:
       typo3-db: null
@@ -92,8 +91,6 @@ services:
       REDIS_CACHE_HOST_PREFIX: redis-cache-
       REDIS_SESSION_HOST_PREFIX: redis-session-
       TRUSTED_HOSTS_PATTERN: .*\.play-with-docker\.com
-    env_file:
-    - .docker/.env.db
     image: t3easy/typo3:typo3-dev-master
     networks:
       typo3-db: null
@@ -110,8 +107,20 @@ services:
       target: /app/private/typo3temp
       volume: {}
     - type: volume
-      source: var
-      target: /app/var
+      source: var-charset
+      target: /app/var/charset
+      volume: {}
+    - type: volume
+      source: var-lock
+      target: /app/var/lock
+      volume: {}
+    - type: volume
+      source: var-log
+      target: /app/var/log
+      volume: {}
+    - type: volume
+      source: var-session
+      target: /app/var/session
       volume: {}
   web:
     depends_on:
@@ -130,7 +139,7 @@ services:
     ports:
     - mode: ingress
       target: 80
-      published: 80
+      published: "80"
       protocol: tcp
     restart: "no"
     volumes:
@@ -148,22 +157,28 @@ services:
         nocopy: true
 networks:
   frontend:
-    name: docker-typo3_frontend
+    name: typo3_frontend
   typo3-db:
-    name: docker-typo3_typo3-db
+    name: typo3_typo3-db
   typo3-redis:
-    name: docker-typo3_typo3-redis
+    name: typo3_typo3-redis
   web-typo3:
-    name: docker-typo3_web-typo3
+    name: typo3_web-typo3
 volumes:
   db:
-    name: docker-typo3_db
+    name: typo3_db
   fileadmin:
-    name: docker-typo3_fileadmin
+    name: typo3_fileadmin
   typo3temp:
-    name: docker-typo3_typo3temp
-  var:
-    name: docker-typo3_var
+    name: typo3_typo3temp
+  var-charset:
+    name: typo3_var-charset
+  var-lock:
+    name: typo3_var-lock
+  var-log:
+    name: typo3_var-log
+  var-session:
+    name: typo3_var-session
 x-redis:
   image: redis:alpine
   networks:
