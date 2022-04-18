@@ -33,6 +33,7 @@ RUN set -eux; \
         mkdir -p /app/private/fileadmin; \
         mkdir -p /app/private/typo3temp; \
         mkdir -p /app/var; \
+        mkdir -p /app/var/session; \
         chown -R www-data:www-data /app
 
 FROM php-base as php-development
