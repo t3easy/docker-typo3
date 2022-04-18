@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 ARG PHP_VERSION=7.4
 ARG TARGET_ENVIRONMENT=production
 
@@ -29,7 +30,9 @@ ENV XDEBUG_MODE=off
 COPY . /app
 # Remove .docker because it cannot be excluded with .dockerignore
 RUN rm -rf /app/.docker
-RUN composer install --no-ansi --no-interaction --no-dev --no-progress --classmap-authoritative
+RUN set -eux; \
+        composer install --no-ansi --no-interaction --no-dev --no-progress --classmap-authoritative; \
+        typo3 cache:warmup
 
 FROM web-base as web-production
 COPY --chown=101 --from=builder /app /app
