@@ -12,10 +12,14 @@ services:
       typo3-mailhog:
       frontend:
     labels:
-      traefik.docker.network: ${FRONTEND_NETWORK:-frontend}
-      traefik.enable: "true"
-      traefik.frontend.rule: Host:mail.${VHOST}
-      traefik.port: "8025"
+    - "traefik.enable=true"
+    - "traefik.docker.network=${FRONTEND_NETWORK:-frontend}"
+    - "traefik.http.routers.mailhog-http-${COMPOSE_PROJECT_NAME}.rule=Host(`mailhog-${VHOST}`)"
+    - "traefik.http.routers.mailhog-http-${COMPOSE_PROJECT_NAME}.entrypoints=${TRAEFIK_ENTRYPOINT_HTTP}"
+    - "traefik.http.routers.mailhog-https-${COMPOSE_PROJECT_NAME}.rule=Host(`mailhog-${VHOST}`)"
+    - "traefik.http.routers.mailhog-https-${COMPOSE_PROJECT_NAME}.entrypoints=${TRAEFIK_ENTRYPOINT_HTTPS}"
+    - "traefik.http.routers.mailhog-https-${COMPOSE_PROJECT_NAME}.tls=true"
+    - "traefik.http.services.mailhog-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=8025"
     restart: "${RESTART}"
 
 networks:

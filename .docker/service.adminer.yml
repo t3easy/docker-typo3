@@ -11,10 +11,14 @@ services:
       adminer-db:
       frontend:
     labels:
-      traefik.docker.network: ${FRONTEND_NETWORK:-frontend}
-      traefik.enable: "true"
-      traefik.frontend.rule: Host:adminer.${VHOST}
-      traefik.port: "8080"
+    - "traefik.enable=true"
+    - "traefik.docker.network=${FRONTEND_NETWORK:-frontend}"
+    - "traefik.http.routers.adminer-http-${COMPOSE_PROJECT_NAME}.rule=Host(`adminer-${VHOST}`)"
+    - "traefik.http.routers.adminer-http-${COMPOSE_PROJECT_NAME}.entrypoints=${TRAEFIK_ENTRYPOINT_HTTP}"
+    - "traefik.http.routers.adminer-https-${COMPOSE_PROJECT_NAME}.rule=Host(`adminer-${VHOST}`)"
+    - "traefik.http.routers.adminer-https-${COMPOSE_PROJECT_NAME}.entrypoints=${TRAEFIK_ENTRYPOINT_HTTPS}"
+    - "traefik.http.routers.adminer-https-${COMPOSE_PROJECT_NAME}.tls=true"
+    - "traefik.http.services.adminer-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=8080"
     restart: "${RESTART}"
 
 networks:

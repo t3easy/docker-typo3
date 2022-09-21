@@ -30,8 +30,8 @@
 1.  Go to
     * <http://typo3.localhost/> for TYPO3 frontend
     * <http://typo3.localhost/typo3/> for TYPO3 backend
-    * <http://adminer.typo3.localhost/> for Adminer
-    * <http://mail.typo3.localhost> for Mailhog
+    * <http://adminer-typo3.localhost/> for Adminer
+    * <http://mailhog-typo3.localhost> for Mailhog
 
 ## .env
 In this file you define the environment you'd like to setup.
@@ -39,6 +39,11 @@ There are two examples, `.env.dev` to start an development environment and `.env
 
 To check the result, run `docker-compose config`.  
 To deploy to a swarm write the result to a file `docker-compose config > stack.yml` and use it `docker stack deploy --compose-file stack.yml myproject`
+
+### COMPOSE_PROJECT_NAME
+A unique project name. It must not contain dots.
+E.g. project-typo3version like company-typo3v11
+See <https://docs.docker.com/compose/reference/envvars/#compose_project_name> for more details
 
 ### COMPOSE_FILE
 Add all necessary compose files separated with `:`, always start with the root `docker-compose.yml` to have a proper project name and relative paths.
@@ -48,7 +53,7 @@ More at <https://docs.docker.com/compose/reference/envvars/#compose_file>
 ### VHOST
 The FQDN of the TYPO3 project.
 It gets prefixed for other services, e.g. if you set VHOST to `typo3.localhost`,
-you can reach Adminer at `adminer.typo3.localhost` and Mailhog at `mail.typo3.localhost`.
+you can reach Adminer at `adminer-typo3.localhost` and Mailhog at `mailhog-typo3.localhost`.
 
 ### ADDITIONAL_VHOSTS
 Adds additional names to the TYPO3 web service. The value must start with a comma (`,`).
@@ -96,6 +101,9 @@ Build the TYPO3 image with that PHP extensions.
 
 ### WEB_PORT
 The port the web container expose. Only if you use `.docker/env.direct.yml`.
+
+### TRAEFIK_ENTRYPOINT_HTTP and TRAEFIK_ENTRYPOINT_HTTPS
+Names of the Traefik entrypoints
 
 ## Build
 To build a productive environment use `docker-compose -f .docker/build.yml` from the root with an prepared `.env`

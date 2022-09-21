@@ -120,7 +120,12 @@ services:
     labels:
       traefik.docker.network: frontend
       traefik.enable: "true"
-      traefik.frontend.rule: Host:www.domain.tld
+      traefik.http.routers.web-http-pwd-typo3v11-dev.entrypoints: http
+      traefik.http.routers.web-http-pwd-typo3v11-dev.rule: Host(`www.domain.tld`)
+      traefik.http.routers.web-https-pwd-typo3v11-dev.entrypoints: https
+      traefik.http.routers.web-https-pwd-typo3v11-dev.rule: Host(`www.domain.tld`)
+      traefik.http.routers.web-https-pwd-typo3v11-dev.tls: "true"
+      traefik.http.services.web-pwd-typo3v11-dev.loadbalancer.server.port: '80'
     networks:
       frontend: null
       web-typo3:

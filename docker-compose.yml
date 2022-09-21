@@ -9,9 +9,14 @@ services:
     depends_on:
     - typo3
     labels:
-      traefik.docker.network: ${FRONTEND_NETWORK:-frontend}
-      traefik.enable: "true"
-      traefik.frontend.rule: Host:${VHOST}${ADDITIONAL_VHOSTS}
+    - "traefik.enable=true"
+    - "traefik.docker.network=${FRONTEND_NETWORK:-frontend}"
+    - "traefik.http.routers.web-http-${COMPOSE_PROJECT_NAME}.rule=Host(`${VHOST}`)"
+    - "traefik.http.routers.web-http-${COMPOSE_PROJECT_NAME}.entrypoints=${TRAEFIK_ENTRYPOINT_HTTP}"
+    - "traefik.http.routers.web-https-${COMPOSE_PROJECT_NAME}.rule=Host(`${VHOST}`)"
+    - "traefik.http.routers.web-https-${COMPOSE_PROJECT_NAME}.entrypoints=${TRAEFIK_ENTRYPOINT_HTTPS}"
+    - "traefik.http.routers.web-https-${COMPOSE_PROJECT_NAME}.tls=true"
+    - "traefik.http.services.web-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=80"
     restart: "${RESTART}"
 
   typo3:
