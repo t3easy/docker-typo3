@@ -3,4 +3,4 @@ services:
     ports:
     - "${DB_BIND_TO}:3306"
     volumes:
-    - .docker/db:/var/lib/mysql${DOCKER_CACHE_CONFIG}
+    - .docker/db:/var/lib/mysql

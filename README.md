@@ -62,9 +62,6 @@ Example `,2nd.domain.tld,3rd.domain.tld`
 ### FRONTEND_NETWORK
 The name of the docker network that Traefik can use to connect to the web service.
 
-### DOCKER_CACHE_CONFIG
-Should be `:cached` for development on Mac, should be blank for development on Linux and production.
-
 ### RESTART
 Define the restart policy for all services.
 Should be `always` for production and `no` for development.

@@ -44,7 +44,6 @@ deploy:live:
       .docker/env.gitlab.yml"
     VHOST: "www.domain.tld"
     FRONTEND_NETWORK: "frontend"
-    DOCKER_CACHE_CONFIG: ""
     RESTART: "always"
     DB_IMAGE: "mariadb:10.2"
   script:
