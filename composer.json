@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "helhum/typo3-console": "^7.1.1",
+        "helhum/typo3-console": "^7.1.2",
         "helhum/typo3-secure-web": "^0.3.2",
         "typo3/cms-backend": "11.5.x-dev",
         "typo3/cms-belog": "11.5.x-dev",
@@ -50,7 +50,7 @@
 			"typo3/cms-composer-installers": true
 		},
         "platform": {
-            "php": "7.4.28"
+            "php": "7.4.30"
         },
         "sort-packages": true
     },
