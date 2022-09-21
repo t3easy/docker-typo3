@@ -47,6 +47,7 @@
     },
     "config": {
         "allow-plugins": {
+            "helhum/typo3-console-plugin": true,
             "typo3/class-alias-loader": true,
             "typo3/cms-composer-installers": true
         },
