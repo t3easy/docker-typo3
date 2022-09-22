@@ -8,7 +8,7 @@ WORKDIR /app
 
 FROM web-base as web-development
 
-FROM t3easy/php:${PHP_VERSION}-${TARGET_ENVIRONMENT} AS php-base
+FROM ghcr.io/t3easy/php:${PHP_VERSION}-${TARGET_ENVIRONMENT} AS php-base
 COPY .docker/cron.sh /usr/local/bin/cron
 RUN rm /var/spool/cron/crontabs/root \
  && echo '*/15 * * * * php -f /app/vendor/bin/typo3 scheduler:run' > /var/spool/cron/crontabs/www-data
@@ -24,7 +24,7 @@ RUN set -eux; \
 FROM php-base as php-development
 ENV TYPO3_CONTEXT=Development
 
-FROM t3easy/php:${PHP_VERSION}-development AS builder
+FROM ghcr.io/t3easy/php:${PHP_VERSION}-development AS builder
 ENV XDEBUG_MODE=off
 COPY . /app
 # Remove .docker because it cannot be excluded with .dockerignore

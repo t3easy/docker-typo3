@@ -81,7 +81,7 @@ services:
       REDIS_CACHE_HOST_PREFIX: redis-cache-
       REDIS_SESSION_HOST_PREFIX: redis-session-
       TRUSTED_HOSTS_PATTERN: .*\.play-with-docker\.com
-    image: t3easy/typo3:typo3-10
+    image: ghcr.io/t3easy/typo3:typo3-10
     networks:
       typo3-db: {}
       typo3-redis: {}
@@ -94,7 +94,7 @@ services:
   web:
     depends_on:
     - typo3
-    image: t3easy/typo3:web-10
+    image: ghcr.io/t3easy/typo3:web-10
     labels:
       traefik.docker.network: frontend
       traefik.enable: "true"
