@@ -31,6 +31,8 @@ jobs:
         - branch: 9.x
           typo3-version: 9
         - branch: main
+          node-version: 16
+        - branch: main
           node-version: 14
         - branch: main
           node-version: 12
