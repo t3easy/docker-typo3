@@ -1,8 +1,8 @@
 {
     "name": "t3easy/typo3-bootcamp",
-    "type": "project",
     "description": "Environment to develop and run TYPO3 in Docker containers",
     "license": "GPL-2.0-or-later",
+    "type": "project",
     "authors": [
         {
             "name": "Jan Kiesewetter",
@@ -43,6 +43,16 @@
         "typo3/cms-adminpanel": "11.5.x-dev",
         "typo3/cms-lowlevel": "11.5.x-dev",
         "typo3/cms-reports": "11.5.x-dev"
+    },
+    "repositories": {
+        "local": {
+            "type": "path",
+            "url": "packages/*",
+            "canonical": false,
+            "options": {
+                "reference": "none"
+            }
+        }
     },
     "config": {
         "allow-plugins": {
