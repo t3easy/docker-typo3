@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-ARG PHP_VERSION=7.4
+ARG PHP_VERSION=8.1
 ARG TARGET_ENVIRONMENT=production
 ARG NODE_VERSION=14
 

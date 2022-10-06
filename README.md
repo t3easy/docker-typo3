@@ -73,7 +73,7 @@ The image of the db service, see
 * <https://hub.docker.com/_/mysql/>
 * <https://forge.typo3.org/issues/82023#note-8>
 
-Example `mariadb:10.2`
+Example `mariadb:10.9`
 
 ### MYSQL_ROOT_PASSWORD
 Set the password of the root db user.
@@ -159,6 +159,7 @@ The TYPO3 PHP image does not include mysql or mysqldump binary which are require
 
 ## Play with docker
 Start a demo stack:
+*  [TYPO3 12](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/t3easy/docker-typo3/12.x/.docker/pwd/stack.yml)
 *  [TYPO3 11 LTS](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/t3easy/docker-typo3/11.x/.docker/pwd/stack.yml)
 *  [TYPO3 10 LTS](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/t3easy/docker-typo3/10.x/.docker/pwd/stack.yml)
 *  [TYPO3 9 LTS](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/t3easy/docker-typo3/9.x/.docker/pwd/stack.yml)

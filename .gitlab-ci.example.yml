@@ -45,7 +45,7 @@ deploy:live:
     VHOST: "www.domain.tld"
     FRONTEND_NETWORK: "frontend"
     RESTART: "always"
-    DB_IMAGE: "mariadb:10.2"
+    DB_IMAGE: "mariadb:10.9"
   script:
   - docker-compose pull
   - docker-compose up -d

@@ -9,7 +9,7 @@ services:
       MYSQL_PASSWORD: typo3
       MYSQL_ROOT_PASSWORD: typo3
       MYSQL_USER: typo3
-    image: mariadb:10.2
+    image: mariadb:10.9
     networks:
       typo3-db: null
     restart: "no"
@@ -82,7 +82,7 @@ services:
       REDIS_CACHE_HOST_PREFIX: redis-cache-
       REDIS_SESSION_HOST_PREFIX: redis-session-
       TRUSTED_HOSTS_PATTERN: .*\.play-with-docker\.com
-    image: t3easy/typo3:typo3-dev-master
+    image: ghcr.io/t3easy/typo3:typo3-12
     networks:
       typo3-db: null
       typo3-redis: null
@@ -116,7 +116,7 @@ services:
   web:
     depends_on:
     - typo3
-    image: t3easy/typo3:web-dev-master
+    image: ghcr.io/t3easy/typo3:web-12
     labels:
       traefik.docker.network: frontend
       traefik.enable: "true"
