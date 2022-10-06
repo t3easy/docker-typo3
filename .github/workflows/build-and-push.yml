@@ -24,6 +24,8 @@ jobs:
         include:
         - branch: main
           typo3-version: dev-master
+        - branch: 12.x
+          typo3-version: 12
         - branch: 11.x
           typo3-version: 11
         - branch: 10.x
