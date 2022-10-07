@@ -24,7 +24,7 @@
         ```
     1.  Or with the browser  
         ```bash
-        docker-compose exec -u www-data typo3 touch /app/private/FIRST_INSTALL
+        docker-compose exec -u www-data typo3 touch /app/public/FIRST_INSTALL
         ```
         Open <http://typo3.localhost/typo3/install.php> and configure TYPO3
 1.  Go to

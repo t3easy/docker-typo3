@@ -30,8 +30,8 @@ COPY .docker/ca-certificates /usr/local/share/ca-certificates
 RUN update-ca-certificates
 RUN set -eux; \
         mkdir -p /app/config; \
-        mkdir -p /app/private/fileadmin; \
-        mkdir -p /app/private/typo3temp; \
+        mkdir -p /app/public/fileadmin; \
+        mkdir -p /app/public/typo3temp; \
         mkdir -p /app/var; \
         mkdir -p /app/var/session; \
         chown -R www-data:www-data /app

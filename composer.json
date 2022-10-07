@@ -10,7 +10,6 @@
         }
     ],
     "require": {
-        "helhum/typo3-secure-web": "^0.3.2",
         "typo3/cms-backend": "^12.0",
         "typo3/cms-belog": "^12.0",
         "typo3/cms-beuser": "^12.0",
@@ -62,12 +61,6 @@
             "php": "8.1.1"
         },
         "sort-packages": true
-    },
-    "extra": {
-        "typo3/cms": {
-            "root-dir": "private",
-            "web-dir": "public"
-        }
     },
     "scripts": {
         "post-autoload-dump": [

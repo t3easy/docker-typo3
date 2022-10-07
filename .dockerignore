@@ -10,12 +10,10 @@ nbproject
 /.git*
 /.surf
 /docker-compose.yml
-/private/*
-!/private/typo3conf
-/private/typo3conf/*
-!/private/typo3conf/*.php
-/private/typo3conf/PackageStates.php
-/public
+/public/*
+!/public/typo3conf
+/public/typo3conf/*
+!/public/typo3conf/*.php
 /README.md
 /var/*
 !/var/labels

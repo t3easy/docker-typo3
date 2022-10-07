@@ -8,11 +8,8 @@ nbproject
 !/var/labels
 /vendor
 
-/private/*
-!/private/typo3conf
-/private/typo3conf/*
-!/private/typo3conf/*.php
-/private/typo3conf/PackageStates.php
-
 /public/*
 !/public/.htaccess
+!/public/typo3conf
+/public/typo3conf/*
+!/public/typo3conf/*.php

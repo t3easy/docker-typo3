@@ -62,7 +62,7 @@ services:
     command:
     - /bin/sh
     - -c
-    - '[ -f /app/private/typo3conf/LocalConfiguration.php ] || touch /app/private/FIRST_INSTALL
+    - '[ -f /app/public/typo3conf/LocalConfiguration.php ] || touch /app/public/FIRST_INSTALL
       && php-fpm'
     depends_on:
     - db
@@ -91,11 +91,11 @@ services:
     volumes:
     - type: volume
       source: fileadmin
-      target: /app/private/fileadmin
+      target: /app/public/fileadmin
       volume: {}
     - type: volume
       source: typo3temp
-      target: /app/private/typo3temp
+      target: /app/public/typo3temp
       volume: {}
     - type: volume
       source: var-charset
@@ -140,13 +140,13 @@ services:
     volumes:
     - type: volume
       source: fileadmin
-      target: /app/private/fileadmin
+      target: /app/public/fileadmin
       read_only: true
       volume:
         nocopy: true
     - type: volume
       source: typo3temp
-      target: /app/private/typo3temp
+      target: /app/public/typo3temp
       read_only: true
       volume:
         nocopy: true
