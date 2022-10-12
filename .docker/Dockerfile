@@ -19,7 +19,9 @@ RUN set -eux; \
         mkdir -p /app/config; \
         mkdir -p /app/private/fileadmin; \
         mkdir -p /app/private/typo3temp; \
-        mkdir -p /app/var; \
+        mkdir -p /app/var/charset; \
+        mkdir -p /app/var/lock; \
+        mkdir -p /app/var/log; \
         mkdir -p /app/var/session; \
         chown -R www-data:www-data /app
 
