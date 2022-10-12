@@ -29,7 +29,6 @@ RUN rm /var/spool/cron/crontabs/root \
 COPY .docker/ca-certificates /usr/local/share/ca-certificates
 RUN update-ca-certificates
 RUN set -eux; \
-        mkdir -p /app/config; \
         mkdir -p /app/public/fileadmin; \
         mkdir -p /app/public/typo3temp; \
         mkdir -p /app/var; \
